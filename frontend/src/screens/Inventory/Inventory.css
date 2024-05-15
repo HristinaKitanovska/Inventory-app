@@ -1,0 +1,27 @@
+.inventory-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.inventory-overview {
+  width: 890px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+}
+.inventory-overview > span {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 33px;
+  color: #3e4153;
+}
+
+.vertical-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}

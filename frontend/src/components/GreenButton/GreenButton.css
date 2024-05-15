@@ -1,0 +1,20 @@
+.green-btn {
+  background-color: #53a856;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  border: none;
+}
+
+/* PROVERI ZA IMG */
+.green-btn > img {
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+}

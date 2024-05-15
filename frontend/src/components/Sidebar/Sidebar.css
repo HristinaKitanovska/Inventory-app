@@ -1,0 +1,12 @@
+.sidebar {
+  background-color: #53a856;
+  width: 20%;
+  height: 100vh;
+}
+.logo {
+  width: 100%;
+}
+.sidebar-container {
+  width: 80%;
+  margin: auto;
+}
