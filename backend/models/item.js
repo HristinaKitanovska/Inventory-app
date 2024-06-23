@@ -13,7 +13,6 @@ const itemSchema = mongoose.Schema(
     category: {
       ref: "category",
       type: mongoose.Types.ObjectId,
-      required: true,
     },
     date: {
       type: Date,
