@@ -3,6 +3,7 @@
   height: 270px;
   background-color: #ffffff;
   border-radius: 10px;
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .vertical-card-container > img {
@@ -16,7 +17,9 @@
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  margin-right: 20px;
   margin-top: 10px;
+  margin: 10px 20px 0px 20px;
   color: #333544;
 }
 
@@ -30,4 +33,9 @@
 
 .last-update {
   font-size: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
 }

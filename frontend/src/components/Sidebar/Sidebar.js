@@ -5,7 +5,7 @@ import SidebarContent from "../SidebarContent/SidebarContent";
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <img className="logo" src={logo} />
+      <img className="logo" src={logo} alt="" />
       <div className="sidebar-container">
         <SidebarContent />
       </div>

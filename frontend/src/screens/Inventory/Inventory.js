@@ -11,49 +11,33 @@ import Modal from "../../modals/Modal/Modal";
 const Inventory = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
-  const [categoryImage, setCategoryImage] = useState(null);
-
-  const handleCategoryChange = (event) => setNewCategory(event.target.value);
-  const handleImageChange = (event) => setCategoryImage(event.target.files[0]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/categories`)
       .then((response) => response.json())
       .then((data) => setCategories(data.categories));
   }, []);
-  // console.log(categories);
 
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  const handleSubmit = (event) => {
-    console.log(event.target);
-    event.preventDefault();
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
-    const formData = new FormData();
-    formData.append("categoryName", newCategory);
-    formData.append("categoryImage", categoryImage);
-    console.log(formData);
-
-    fetch("http://localhost:3000/categories", {
+  const handleAddCategory = (formData) => {
+    fetch(`http://localhost:3000/categories`, {
       method: "POST",
       body: formData,
     })
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          console.log("Category added successfully!");
-          closeModal();
-        } else {
-          console.error("Failed to add category:", response.statusText);
-        }
+      .then((response) => response.json())
+      .then((data) => {
+        setCategories((prevCategories) => [...prevCategories, data.category]);
       })
-      .catch((error) => {
-        console.error("Error adding category:", error.message);
-      });
+      .catch((error) => console.error("Error:", error));
   };
-  console.log(newCategory);
+
   return (
     <>
       <AppContainer>
@@ -81,11 +65,9 @@ const Inventory = () => {
           ))}
         </div>
         <Modal
-          showModal={showModal}
-          closeModal={closeModal}
-          handleCategoryChange={handleCategoryChange}
-          handleImageChange={handleImageChange}
-          handleSubmit={handleSubmit}
+          show={showModal}
+          onClose={closeModal}
+          onAddCategory={handleAddCategory}
         />
       </AppContainer>
     </>

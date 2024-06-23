@@ -13,7 +13,7 @@ const Search = ({ icon, placeholder }) => {
   };
   return (
     <div className="search">
-      <img src={icon} />
+      <img src={icon} alt="" />
       <input
         placeholder={isPlaceholderHidden ? "" : placeholder}
         className="search-input"
