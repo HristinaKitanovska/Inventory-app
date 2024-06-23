@@ -40,7 +40,7 @@ const Inventory = () => {
 
   return (
     <>
-      <AppContainer>
+      <AppContainer pageTitle="Inventory">
         <div className="inventory-options">
           <Search icon={searchIcon} placeholder="Search Category" />
           <GreenButton icon={add} text="add category" onClick={openModal} />

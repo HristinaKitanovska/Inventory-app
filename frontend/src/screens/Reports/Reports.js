@@ -3,7 +3,7 @@ import AppContainer from "../../components/AppContainer/AppContainer";
 const Reports = () => {
   return (
     <>
-      <AppContainer>
+      <AppContainer pageTitle="Reports">
         <p>Reports</p>
       </AppContainer>
     </>

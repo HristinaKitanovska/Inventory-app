@@ -3,7 +3,7 @@ import AppContainer from "../../components/AppContainer/AppContainer";
 const Suppliers = () => {
   return (
     <>
-      <AppContainer>
+      <AppContainer pageTitle="Suppliers">
         <p>Suppliers</p>
       </AppContainer>
     </>

@@ -1,9 +1,19 @@
 import "./VerticalCard.css";
 import trashBinIcon from "../../assets/icons/trash-bin.svg";
+import { useNavigate } from "react-router-dom";
 
 const VerticalCard = ({ category }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/inventory/${category._id}`);
+  };
   return (
-    <div key={category.id} className="vertical-card-container">
+    <div
+      key={category.id}
+      className="vertical-card-container"
+      onClick={handleClick}
+    >
       <img src={category.image} alt="" />
       <div className="vertical-card-content">
         <span className="header">{category.name}</span>

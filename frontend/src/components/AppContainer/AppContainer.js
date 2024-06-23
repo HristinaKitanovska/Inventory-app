@@ -1,12 +1,7 @@
 import "./AppContainer.css";
 import Sidebar from "../Sidebar/Sidebar";
-import { useLocation } from "react-router-dom";
 
-const AppContainer = ({ children }) => {
-  const location = useLocation();
-  const pathWord = location.pathname.split("/").pop();
-  const pageTitle = pathWord.charAt(0).toUpperCase() + pathWord.slice(1);
-
+const AppContainer = ({ children, pageTitle }) => {
   return (
     <div className="app-container">
       <Sidebar />
