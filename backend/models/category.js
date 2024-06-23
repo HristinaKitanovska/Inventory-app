@@ -8,7 +8,17 @@ const categorySchema = mongoose.Schema(
     },
     image: {
       type: String,
-      required: false,
+      required: true,
+    },
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "item",
+      },
+    ],
+    date: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }

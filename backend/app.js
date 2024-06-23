@@ -19,10 +19,13 @@ mongoose.connect("mongodb://127.0.0.1:33123/inventory");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// Serve static files from the uploads directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

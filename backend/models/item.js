@@ -15,6 +15,10 @@ const itemSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
