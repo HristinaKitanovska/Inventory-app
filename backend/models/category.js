@@ -12,8 +12,8 @@ const categorySchema = mongoose.Schema(
     },
     items: [
       {
-        type: mongoose.Schema.Types.ObjectId,
         ref: "item",
+        type: mongoose.Schema.Types.ObjectId,
       },
     ],
     date: {

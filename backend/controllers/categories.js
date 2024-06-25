@@ -3,7 +3,7 @@ const Category = require("../models/category");
 module.exports = {
   getAllCategories: async (req, res) => {
     try {
-      const categories = await Category.find();
+      const categories = await Category.find().populate("items", "name");
       res.send({
         error: false,
         message: "All categories from database",
@@ -19,7 +19,7 @@ module.exports = {
   },
   getCategoryById: async (req, res) => {
     try {
-      const category = await Category.findById(req.params.id);
+      const category = await Category.findById(req.params.id).populate("items");
       res.send({
         error: false,
         message: "Category details",

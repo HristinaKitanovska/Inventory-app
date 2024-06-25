@@ -1,8 +1,9 @@
 const Item = require("../models/item");
+const Categories = require("../models/category");
 
 module.exports = {
   getAll: async (req, res) => {
-    const items = await Item.find().populate("category");
+    const items = await Item.find().populate("category", "name");
     res.send({
       error: false,
       message: "All items from database",
@@ -10,7 +11,10 @@ module.exports = {
     });
   },
   getById: async (req, res) => {
-    const item = await Item.findById(req.params.id).populate("category");
+    const item = await Item.findById(req.params.id).populate(
+      "category",
+      "name"
+    );
 
     res.send({
       error: false,
@@ -44,12 +48,25 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      const item = await Item.create(req.body);
+      const { name } = req.body;
+
+      const category = await Categories.findOne({
+        title: req.params.id,
+      });
+
+      const newItem = await Item.create({
+        name,
+        category: category._id,
+      });
+
+      await Categories.findByIdAndUpdate(category._id, {
+        $push: { items: newItem },
+      });
 
       res.send({
         error: false,
         message: "New item has been created",
-        item: item,
+        item: newItem,
       });
     } catch (error) {
       response(res, 500, error.msg);
