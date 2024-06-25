@@ -61,7 +61,7 @@ const Inventory = () => {
         </div>
         <div className="vertical-cards">
           {categories.map((category) => (
-            <VerticalCard key={category._id} category={category} />
+            <VerticalCard key={category._id} data={category} type="category" />
           ))}
         </div>
         <Modal

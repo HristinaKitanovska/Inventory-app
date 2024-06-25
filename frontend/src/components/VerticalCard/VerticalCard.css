@@ -38,5 +38,8 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+}
+
+.trash-bin {
+  margin-left: auto;
 }
