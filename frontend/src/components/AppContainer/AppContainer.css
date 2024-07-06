@@ -1,6 +1,7 @@
 .app-container {
   display: flex;
   justify-content: center;
+  min-height: 100vh;
 }
 .app-container-content {
   width: 80%;

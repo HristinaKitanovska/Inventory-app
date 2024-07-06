@@ -3,6 +3,7 @@ import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
 
 const VerticalCard = ({ data, type }) => {
+  console.log(data);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -18,7 +19,7 @@ const VerticalCard = ({ data, type }) => {
       className="vertical-card-container"
       onClick={handleClick}
     >
-      <img src={data.image} alt="" />
+      <img src={`http://localhost:3000/${data?.image}`} alt="" />
       <div className="vertical-card-content">
         <span className="header">{data.name}</span>
         <span className="info">

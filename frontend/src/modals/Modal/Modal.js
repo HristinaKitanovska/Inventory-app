@@ -5,7 +5,7 @@ import GreenButton from "../../components/GreenButton/GreenButton";
 import GreyButton from "../../components/GreyButton/GreyButton";
 import addPhotoIcon from "../../assets/icons/add-photo-icon.svg";
 
-const Modal = ({ show, onClose, onAddCategory }) => {
+const Modal = ({ show, close, onSubmit, mode }) => {
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
@@ -24,10 +24,10 @@ const Modal = ({ show, onClose, onAddCategory }) => {
       formData.append("name", name);
       formData.append("image", imageFile);
 
-      onAddCategory(formData);
+      onSubmit(formData);
       setName("");
       setImageFile(null);
-      onClose();
+      close();
     } else {
       alert("Please select an image file.");
     }
@@ -41,8 +41,10 @@ const Modal = ({ show, onClose, onAddCategory }) => {
     <>
       <div className={`modal ${show ? "show" : ""}`}>
         <div className="modal-header">
-          <span className="modal-header-name">Add cattegory</span>
-          <span className="close-btn" onClick={onClose}>
+          <span className="modal-header-name">
+            {mode === "addCategory" ? "Add Cattegory" : "Add Item"}
+          </span>
+          <span className="close-btn" onClick={close}>
             <img src={closeIcon} alt="" />
           </span>
         </div>
@@ -74,8 +76,11 @@ const Modal = ({ show, onClose, onAddCategory }) => {
             </div>
             <div className="line-divider"></div>
             <div className="button-options">
-              <GreyButton text="CANCEL" onClick={onClose} />
-              <GreenButton text="ADD CATEGORY" type="submit" />
+              <GreyButton text="CANCEL" onClick={close} />
+              <GreenButton
+                text={mode === "addCategory" ? "Add Cattegory" : "Add Item"}
+                type="submit"
+              />
             </div>
           </form>
         </div>

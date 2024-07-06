@@ -60,14 +60,23 @@ const Inventory = () => {
           </span>
         </div>
         <div className="vertical-cards">
-          {categories.map((category) => (
-            <VerticalCard key={category._id} data={category} type="category" />
-          ))}
+          {categories.length > 0 ? (
+            categories.map((category) => (
+              <VerticalCard
+                key={category._id}
+                data={category}
+                type="category"
+              />
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
         <Modal
           show={showModal}
-          onClose={closeModal}
-          onAddCategory={handleAddCategory}
+          close={closeModal}
+          onSubmit={handleAddCategory}
+          mode="addCategory"
         />
       </AppContainer>
     </>

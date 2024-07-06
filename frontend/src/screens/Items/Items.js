@@ -7,11 +7,13 @@ import GreenButton from "../../components/GreenButton/GreenButton";
 import add from "../../assets/icons/add-icon.svg";
 import searchIcon from "../../assets/icons/search.svg";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
+import Modal from "../../modals/Modal/Modal";
 
 const Items = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
@@ -25,11 +27,30 @@ const Items = () => {
       .catch((error) => console.error("Error:", error));
   }, [id]);
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleAddItem = (formData) => {
+    fetch("http://localhost:3000/items", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setItems((prevItems) => [...prevItems, data.item]);
+      })
+      .catch((error) => console.log("Error", error));
+  };
+
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">
         <Search icon={searchIcon} placeholder="Search Item" />
-        <GreenButton icon={add} text="add item" />
+        <GreenButton icon={add} text="add item" onClick={openModal} />
       </div>
       <div className="vertical-cards">
         {items.length > 0 ? (
@@ -40,6 +61,12 @@ const Items = () => {
           <p>Loading...</p>
         )}
       </div>
+      <Modal
+        show={showModal}
+        close={closeModal}
+        onSubmit={handleAddItem}
+        mode="addItem"
+      />
     </AppContainer>
   );
 };
