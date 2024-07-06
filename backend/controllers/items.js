@@ -49,15 +49,20 @@ module.exports = {
   create: async (req, res) => {
     try {
       const { name } = req.body;
+      const image = req.file ? req.file.path : null;
 
       const category = await Categories.findOne({
         title: req.params.id,
       });
 
-      const newItem = await Item.create({
-        name,
-        category: category._id,
-      });
+      // const newItem = await Item.create({
+      //   name,
+      //   image,
+      //   category: category._id,
+      // });
+
+      const newItem = new Item({ name, image, category: category._id });
+      await newItem.save();
 
       await Categories.findByIdAndUpdate(category._id, {
         $push: { items: newItem },
