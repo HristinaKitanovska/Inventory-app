@@ -1,10 +1,20 @@
+import React, { memo } from "react";
 import "./VerticalCard.css";
 import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
 
-const VerticalCard = ({ data, type }) => {
+const VerticalCard = memo(({ data, type }) => {
   console.log(data);
   const navigate = useNavigate();
+
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(data.updatedAt));
 
   const handleClick = () => {
     if (type === "category") {
@@ -22,15 +32,25 @@ const VerticalCard = ({ data, type }) => {
       <img src={`http://localhost:3000/${data?.image}`} alt="" />
       <div className="vertical-card-content">
         <span className="header">{data.name}</span>
-        <span className="info">
-          <b>3 Items</b> | € 338.00
-        </span>
+        {/* za category prikazuvame kolku items ima */}
+        {type === "category" && (
+          <span className="info">
+            <b>{data.items?.length || "0"} Items</b> | € 338.00
+          </span>
+        )}
+        {/* za items prikazuvane kolku orders ima */}
+        {type === "item" && (
+          <span className="info">
+            <b>0 Purchase records</b> | € 338.00
+          </span>
+        )}
+
         <div className="footer">
           {type === "category" && (
             <span className="last-update">
               Updated At:
               <br />
-              <b>10/10/2023 20:10</b>
+              <b>{formattedDate}</b>
             </span>
           )}
           <span className="trash-bin">
@@ -40,6 +60,6 @@ const VerticalCard = ({ data, type }) => {
       </div>
     </div>
   );
-};
+});
 
 export default VerticalCard;

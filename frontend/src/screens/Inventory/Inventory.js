@@ -11,11 +11,31 @@ import Modal from "../../modals/Modal/Modal";
 const Inventory = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/categories`)
+  //     .then((response) => response.json())
+  //     .then((data) => setCategories(data.categories));
+  // }, []);
   useEffect(() => {
     fetch(`http://localhost:3000/categories`)
-      .then((response) => response.json())
-      .then((data) => setCategories(data.categories));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategories(data.categories || []);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+        setError(error.message);
+        setLoading(false);
+      });
   }, []);
 
   const openModal = () => {
@@ -37,6 +57,14 @@ const Inventory = () => {
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <>
@@ -60,7 +88,7 @@ const Inventory = () => {
           </span>
         </div>
         <div className="vertical-cards">
-          {categories.length > 0 ? (
+          {categories?.length > 0 ? (
             categories.map((category) => (
               <VerticalCard
                 key={category._id}
@@ -69,7 +97,7 @@ const Inventory = () => {
               />
             ))
           ) : (
-            <p>Loading...</p>
+            <p>No categories available</p>
           )}
         </div>
         <Modal

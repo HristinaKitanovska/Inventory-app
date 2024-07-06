@@ -13,18 +13,40 @@ const Items = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
+  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/categories/${id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setCategory(data.category);
+  //       setItems(data.category.items || []);
+  //     })
+  //     .catch((error) => console.error("Error:", error));
+  // }, [id]);
+
   useEffect(() => {
     fetch(`http://localhost:3000/categories/${id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
         setCategory(data.category);
         setItems(data.category.items || []);
+        setLoading(false);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+        setError(error.message);
+        setLoading(false);
+      });
   }, [id]);
 
   const openModal = () => {
@@ -46,6 +68,14 @@ const Items = () => {
       .catch((error) => console.log("Error", error));
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">
@@ -53,12 +83,12 @@ const Items = () => {
         <GreenButton icon={add} text="add item" onClick={openModal} />
       </div>
       <div className="vertical-cards">
-        {items.length > 0 ? (
+        {items?.length > 0 ? (
           items.map((item) => (
             <VerticalCard key={item._id} data={item} type="item" />
           ))
         ) : (
-          <p>Loading...</p>
+          <p>No items available</p>
         )}
       </div>
       <Modal
