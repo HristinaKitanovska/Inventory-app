@@ -12,7 +12,8 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
-          <Route path="/inventory/:id" element={<Items />} />
+          {/*check if should be name or categoryName */}
+          <Route path="/inventory/:categoryName/:id" element={<Items />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/suppliers" element={<Suppliers />} />
         </Routes>

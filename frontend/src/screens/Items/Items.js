@@ -13,21 +13,11 @@ const Items = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/categories/${id}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCategory(data.category);
-  //       setItems(data.category.items || []);
-  //     })
-  //     .catch((error) => console.error("Error:", error));
-  // }, [id]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/categories/${id}`)

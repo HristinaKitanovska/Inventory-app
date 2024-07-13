@@ -16,9 +16,13 @@ const VerticalCard = memo(({ data, type }) => {
     hour12: false,
   }).format(new Date(data.updatedAt));
 
+  const slugify = (text) => {
+    return text.toString().toLowerCase().replace(/\s+/g, "-"); // Replace spaces with -
+  };
+
   const handleClick = () => {
     if (type === "category") {
-      navigate(`/inventory/${data._id}`);
+      navigate(`/inventory/${slugify(data.name)}/${data._id}`);
     } else if (type === "item") {
       navigate(`/inventory/${data._id}`); /* inventory/mouse => orders */
     }
