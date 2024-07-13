@@ -24,7 +24,7 @@ const VerticalCard = memo(({ data, type }) => {
     if (type === "category") {
       navigate(`/inventory/${slugify(data.name)}/${data._id}`);
     } else if (type === "item") {
-      navigate(`/inventory/${data._id}`); /* inventory/mouse => orders */
+      navigate(`/inventory/item/${slugify(data.name)}/${data._id}`);
     }
   };
   return (

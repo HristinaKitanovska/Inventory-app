@@ -4,6 +4,7 @@ import Inventory from "./screens/Inventory/Inventory";
 import Reports from "./screens/Reports/Reports";
 import Suppliers from "./screens/Suppliers/Suppliers";
 import Items from "./screens/Items/Items";
+import Orders from "./screens/Orders/Orders";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/inventory" element={<Inventory />} />
           {/*check if should be name or categoryName */}
           <Route path="/inventory/:categoryName/:id" element={<Items />} />
+          <Route path="/inventory/item/:itemName/:id" element={<Orders />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/suppliers" element={<Suppliers />} />
         </Routes>
