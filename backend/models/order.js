@@ -17,6 +17,10 @@ const orderSchema = mongoose.Schema(
     totalPrice: {
       type: Number,
     },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
