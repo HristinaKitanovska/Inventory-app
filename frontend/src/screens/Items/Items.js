@@ -47,6 +47,8 @@ const Items = () => {
   };
 
   const handleAddItem = (formData) => {
+    formData.append("categoryId", id);
+
     fetch("http://localhost:3000/items", {
       method: "POST",
       body: formData,
