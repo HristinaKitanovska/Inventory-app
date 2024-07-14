@@ -90,10 +90,26 @@ module.exports = {
     //     return
     // }
 
-    await Item.findByIdAndDelete(req.params.id);
-    res.send({
-      error: false,
-      message: `Item with id #${req.params.id} has been deleted`,
-    });
+    try {
+      const item = await Item.findByIdAndDelete(req.params.id);
+
+      if (!item) {
+        return res.status(404).send({
+          error: true,
+          message: `Item with id #${req.params.id} not found`,
+        });
+      }
+
+      res.send({
+        error: false,
+        message: `Item with id #${req.params.id} has been deleted`,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: true,
+        message: "Error deleting item",
+        errorDetails: error.message,
+      });
+    }
   },
 };
