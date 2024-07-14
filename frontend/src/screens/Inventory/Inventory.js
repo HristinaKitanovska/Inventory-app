@@ -38,6 +38,15 @@ const Inventory = () => {
       });
   }, []);
 
+  const findTotalItems = (categories) => {
+    return categories.reduce(
+      (total, category) => total + category.items.length,
+      0
+    );
+  };
+
+  const totalItems = findTotalItems(categories);
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -78,7 +87,7 @@ const Inventory = () => {
             Categories: <b>{categories.length}</b>
           </span>
           <span>
-            Items: <b>11</b>
+            Items: <b>{totalItems}</b>
           </span>
           <span>
             Total orders: <b>25</b>
