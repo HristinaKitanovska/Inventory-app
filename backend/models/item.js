@@ -14,6 +14,12 @@ const itemSchema = mongoose.Schema(
       ref: "category",
       type: mongoose.Types.ObjectId,
     },
+    orders: [
+      {
+        ref: "order",
+        type: mongoose.Types.ObjectId,
+      },
+    ],
     date: {
       type: Date,
       default: Date.now,

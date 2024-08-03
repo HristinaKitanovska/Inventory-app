@@ -1,4 +1,4 @@
-const Supplier = require("../models/category");
+const Supplier = require("../models/supplier");
 
 module.exports = {
   getAllSuppliers: async (req, res) => {
