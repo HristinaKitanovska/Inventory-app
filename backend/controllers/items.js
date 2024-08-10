@@ -3,7 +3,15 @@ const Category = require("../models/category");
 
 module.exports = {
   getAll: async (req, res) => {
-    const items = await Item.find().populate("category", "name");
+    const items = await Item.find()
+      .populate("category", "name")
+      .populate({
+        path: "orders",
+        populate: {
+          path: "supplier",
+          select: "name",
+        },
+      });
     res.send({
       error: false,
       message: "All items from database",
@@ -11,11 +19,15 @@ module.exports = {
     });
   },
   getById: async (req, res) => {
-    const item = await Item.findById(req.params.id).populate(
-      "category",
-      "name"
-    );
-
+    const item = await Item.findById(req.params.id)
+      .populate("category", "name")
+      .populate({
+        path: "orders",
+        populate: {
+          path: "supplier",
+          select: "name",
+        },
+      });
     res.send({
       error: false,
       message: `Item with id #${item._id}, has been fetched`,

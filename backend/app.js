@@ -11,6 +11,7 @@ const cors = require("cors");
 var categoriesRouter = require("./routes/categories");
 var itemsRouter = require("./routes/items");
 var suppliersRouter = require("./routes/suppliers");
+var ordersRouter = require("./routes/orders");
 
 var app = express();
 mongoose.connect("mongodb://127.0.0.1:33123/inventory");
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/categories", categoriesRouter);
 app.use("/items", itemsRouter);
 app.use("/suppliers", suppliersRouter);
+app.use("/orders", ordersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
