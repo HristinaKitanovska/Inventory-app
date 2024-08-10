@@ -11,6 +11,7 @@ const Orders = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [item, setItem] = useState({});
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -27,6 +28,7 @@ const Orders = () => {
         console.log(data);
         setCategory(data.item.category.name);
         setItem(data.item || []);
+        setOrders(data.item.orders || []);
         setLoading(false);
       })
       .catch((error) => {
@@ -35,6 +37,10 @@ const Orders = () => {
         setLoading(false);
       });
   }, [id]);
+
+  const calculateTotalCost = () => {
+    return orders.reduce((total, order) => total + order.totalPrice, 0);
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -57,10 +63,10 @@ const Orders = () => {
       <div className="inventory-options">
         <div className="item-info">
           <span>
-            Total Orders: <b>22</b>
+            Total Orders: <b>{item.orders.length}</b>
           </span>
           <span>
-            Total Cost: <b>€180.00</b>
+            Total Cost: <b>€{calculateTotalCost()}</b>
           </span>
           <span>
             Total Invoices: <b>12</b>
@@ -90,13 +96,19 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1292 units</td>
-                  <td>€1999</td>
-                  <td>€1.99</td>
-                  <td>10/10/2023</td>
-                  <td>Amazon Ltd Electronics</td>
-                </tr>
+                {orders.map((order) => {
+                  const orderDate = new Date(order.date);
+                  const formattedDate = orderDate.toLocaleDateString("en-GB");
+                  return (
+                    <tr key={order._id}>
+                      <td>{order.quantity} units</td>
+                      <td>€{order.totalPrice}</td>
+                      <td>€{order.totalPrice / order.quantity}</td>
+                      <td>{formattedDate}</td>
+                      <td>{order.supplier.name}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

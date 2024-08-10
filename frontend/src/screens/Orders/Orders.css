@@ -63,3 +63,21 @@
   font-size: 38px;
   color: #3e4153;
 }
+
+.order-list {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+table {
+  width: 100%;
+}
+
+.order-list th {
+  border-bottom: 1px solid #3e4153;
+}
+
+th,
+td {
+  text-align: center;
+}
