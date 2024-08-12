@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "./Modal.css";
+import React, { useState } from "react";
 import closeIcon from "../../assets/icons/close-icon.svg";
 import GreenButton from "../../components/GreenButton/GreenButton";
 import GreyButton from "../../components/GreyButton/GreyButton";
@@ -8,8 +8,8 @@ import addPhotoIcon from "../../assets/icons/add-photo-icon.svg";
 const Modal = ({ show, close, onSubmit, mode }) => {
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
-
   const [isPlaceholderHidden, setIsPlaceholderHidden] = useState(false);
+
   const handleFocus = () => {
     setIsPlaceholderHidden(true);
   };

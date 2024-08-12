@@ -6,6 +6,7 @@ import GreenButton from "../../components/GreenButton/GreenButton";
 import add from "../../assets/icons/add-icon.svg";
 import edit from "../../assets/icons/edit.svg";
 import addFolder from "../../assets/icons/add-folder.svg";
+import AddOrderModal from "../../modals/AddOrderModal/AddOrderModal";
 
 const Orders = () => {
   const { id } = useParams();
@@ -40,6 +41,11 @@ const Orders = () => {
 
   const calculateTotalCost = () => {
     return orders.reduce((total, order) => total + order.totalPrice, 0);
+  };
+
+  // to add new order to the list
+  const addOrderToList = (newOrder) => {
+    setOrders((prevOrders) => [...prevOrders, newOrder]);
   };
 
   const openModal = () => {
@@ -97,6 +103,7 @@ const Orders = () => {
               </thead>
               <tbody>
                 {orders.map((order) => {
+                  console.log(orders);
                   const orderDate = new Date(order.date);
                   const formattedDate = orderDate.toLocaleDateString("en-GB");
                   return (
@@ -135,6 +142,12 @@ const Orders = () => {
           </div>
         </div>
       </div>
+      <AddOrderModal
+        show={showModal}
+        close={closeModal}
+        itemId={id}
+        addOrder={addOrderToList}
+      />
     </AppContainer>
   );
 };
