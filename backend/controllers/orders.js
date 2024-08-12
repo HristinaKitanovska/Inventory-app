@@ -39,10 +39,13 @@ module.exports = {
         $push: { orders: newOrder._id },
       });
 
+      // Populate the supplier field
+      const populatedOrder = await newOrder.populate("supplier");
+
       res.send({
         error: false,
         message: "New order has been created",
-        order: newOrder,
+        order: populatedOrder,
       });
     } catch (error) {
       res.status(500).send({
