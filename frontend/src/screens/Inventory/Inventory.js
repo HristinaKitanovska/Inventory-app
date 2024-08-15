@@ -13,12 +13,8 @@ const Inventory = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/categories`)
-  //     .then((response) => response.json())
-  //     .then((data) => setCategories(data.categories));
-  // }, []);
   useEffect(() => {
     fetch(`http://localhost:3000/categories`)
       .then((response) => {
@@ -29,6 +25,7 @@ const Inventory = () => {
       })
       .then((data) => {
         setCategories(data.categories || []);
+        setFilteredCategories(data.categories || []);
         setLoading(false);
       })
       .catch((error) => {
@@ -47,14 +44,6 @@ const Inventory = () => {
 
   const totalItems = findTotalItems(categories);
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const handleAddCategory = (formData) => {
     fetch(`http://localhost:3000/categories`, {
       method: "POST",
@@ -65,6 +54,25 @@ const Inventory = () => {
         setCategories((prevCategories) => [...prevCategories, data.category]);
       })
       .catch((error) => console.error("Error:", error));
+  };
+
+  const handleSearch = (query) => {
+    if (query) {
+      const filtered = categories.filter((category) =>
+        category.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCategories(filtered);
+    } else {
+      setFilteredCategories(categories); // Reset to the full list if the query is empty
+    }
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   if (loading) {
@@ -79,7 +87,11 @@ const Inventory = () => {
     <>
       <AppContainer pageTitle="Inventory">
         <div className="inventory-options">
-          <Search icon={searchIcon} placeholder="Search Category" />
+          <Search
+            icon={searchIcon}
+            placeholder="Search Category"
+            onSearch={handleSearch}
+          />
           <GreenButton icon={add} text="add category" onClick={openModal} />
         </div>
         <div className="inventory-overview">
@@ -97,8 +109,8 @@ const Inventory = () => {
           </span>
         </div>
         <div className="vertical-cards">
-          {categories?.length > 0 ? (
-            categories.map((category) => (
+          {filteredCategories?.length > 0 ? (
+            filteredCategories.map((category) => (
               <VerticalCard
                 key={category._id}
                 data={category}
