@@ -1,0 +1,13 @@
+.date-picker > input {
+  border: 2px solid #999999;
+  border-radius: 5px;
+  padding: 8px;
+  color: #3e4153;
+  text-transform: uppercase;
+}
+
+.custom-hr {
+  height: 1px;
+  background-color: #999999;
+  /* border: 1px solid #999999; */
+}

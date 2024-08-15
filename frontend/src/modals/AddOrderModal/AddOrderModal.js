@@ -9,7 +9,12 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [quantity, setQuantity] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  const [isPlaceholderHidden, setIsPlaceholderHidden] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+
+  const [isQuantityPlaceholderHidden, setIsQuantityPlaceholderHidden] =
+    useState(false);
+  const [isTotalPricePlaceholderHidden, setIsTotalPricePlaceholderHidden] =
+    useState(false);
 
   useEffect(() => {
     if (show) {
@@ -25,16 +30,25 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
       setSelectedSupplier("");
       setQuantity("");
       setTotalPrice("");
+      setSelectedDate("");
     }
   }, [show]);
 
-  const handleFocus = () => {
-    setIsPlaceholderHidden(true);
-  };
-  const handleBlur = () => {
-    setIsPlaceholderHidden(false);
+  const handleQuantityFocus = () => {
+    setIsQuantityPlaceholderHidden(true);
   };
 
+  const handleQuantityBlur = () => {
+    setIsQuantityPlaceholderHidden(false);
+  };
+
+  const handleTotalPriceFocus = () => {
+    setIsTotalPricePlaceholderHidden(true);
+  };
+
+  const handleTotalPriceBlur = () => {
+    setIsTotalPricePlaceholderHidden(false);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,6 +56,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
       supplier: selectedSupplier,
       quantity: parseInt(quantity, 10),
       totalPrice: parseFloat(totalPrice),
+      date: selectedDate,
     };
 
     fetch(`http://localhost:3000/orders/${itemId}`, {
@@ -92,24 +107,32 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
             </select>
             <input
               className="form-name"
-              placeholder={isPlaceholderHidden ? "" : "Quantity"}
+              placeholder={isQuantityPlaceholderHidden ? "" : "Quantity"}
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleQuantityFocus}
+              onBlur={handleQuantityBlur}
               required
             />
             <input
               className="form-name"
-              placeholder={isPlaceholderHidden ? "" : "Total Price"}
+              placeholder={isTotalPricePlaceholderHidden ? "" : "Total Price"}
               type="number"
               value={totalPrice}
               onChange={(e) => setTotalPrice(e.target.value)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleTotalPriceFocus}
+              onBlur={handleTotalPriceBlur}
               required
             />
+            <div className="date-picker">
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </div>
+            <div className="custom-hr"></div>
             <div className="button-options">
               <GreyButton text="CANCEL" onClick={close} />
               <GreenButton text="add order" type="submit" />
