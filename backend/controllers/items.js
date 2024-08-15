@@ -63,11 +63,11 @@ module.exports = {
       const { name, categoryId } = req.body;
       const image = req.file ? req.file.path : null;
 
-      const newItem = new Item({ name, image, categoryId });
+      const newItem = new Item({ name, image, category: categoryId });
       await newItem.save();
 
       await Category.findByIdAndUpdate(categoryId, {
-        $push: { items: newItem },
+        $push: { items: newItem._id },
       });
 
       res.send({

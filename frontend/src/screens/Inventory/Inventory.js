@@ -77,6 +77,10 @@ const Inventory = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategories((prevCategories) => [...prevCategories, data.category]);
+        setFilteredCategories((prevCategories) => [
+          ...prevCategories,
+          data.category,
+        ]);
       })
       .catch((error) => console.error("Error:", error));
   };

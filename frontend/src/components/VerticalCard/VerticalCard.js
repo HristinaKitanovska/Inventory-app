@@ -4,6 +4,7 @@ import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
 
 const VerticalCard = memo(({ data, type }) => {
+  console.log(data);
   const navigate = useNavigate();
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {
@@ -44,7 +45,7 @@ const VerticalCard = memo(({ data, type }) => {
         {/* za items prikazuvane kolku orders ima */}
         {type === "item" && (
           <span className="info">
-            <b>0 Purchase records</b> | € 338.00
+            <b>{data.orders?.length} Purchase records</b> | € 338.00
           </span>
         )}
 

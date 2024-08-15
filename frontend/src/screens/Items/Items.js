@@ -51,6 +51,7 @@ const Items = () => {
       .then((response) => response.json())
       .then((data) => {
         setItems((prevItems) => [...prevItems, data.item]);
+        setfilteredItems((prevItems) => [...prevItems, data.item]);
       })
       .catch((error) => console.log("Error", error));
   };
@@ -80,7 +81,7 @@ const Items = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-
+  console.log(items);
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">

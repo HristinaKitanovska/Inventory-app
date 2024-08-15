@@ -101,19 +101,27 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => {
-                  const orderDate = new Date(order.date);
-                  const formattedDate = orderDate.toLocaleDateString("en-GB");
-                  return (
-                    <tr key={order._id}>
-                      <td>{order.quantity} units</td>
-                      <td>€{order.totalPrice}</td>
-                      <td>€{order.totalPrice / order.quantity}</td>
-                      <td>{formattedDate}</td>
-                      <td className="supplier-name">{order.supplier.name}</td>
-                    </tr>
-                  );
-                })}
+                {orders.length > 0 ? (
+                  orders.map((order) => {
+                    const orderDate = new Date(order.date);
+                    const formattedDate = orderDate.toLocaleDateString("en-GB");
+                    return (
+                      <tr key={order._id}>
+                        <td>{order.quantity} units</td>
+                        <td>€{order.totalPrice}</td>
+                        <td>
+                          €{(order.totalPrice / order.quantity).toFixed(2)}
+                        </td>
+                        <td>{formattedDate}</td>
+                        <td className="supplier-name">{order.supplier.name}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="5">No order yet</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
