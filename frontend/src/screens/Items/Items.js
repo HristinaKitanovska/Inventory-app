@@ -16,6 +16,7 @@ const Items = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [filteredItems, setfilteredItems] = useState([]);
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
@@ -30,6 +31,7 @@ const Items = () => {
       .then((data) => {
         setCategory(data.category);
         setItems(data.category.items || []);
+        setfilteredItems(data.category.items || []);
         setLoading(false);
       })
       .catch((error) => {
@@ -38,13 +40,6 @@ const Items = () => {
         setLoading(false);
       });
   }, [id]);
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
   const handleAddItem = (formData) => {
     formData.append("categoryId", id);
@@ -60,6 +55,24 @@ const Items = () => {
       .catch((error) => console.log("Error", error));
   };
 
+  const handleSearch = (query) => {
+    if (query) {
+      const filtered = items.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setfilteredItems(filtered);
+    } else {
+      setfilteredItems(items);
+    }
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -71,12 +84,16 @@ const Items = () => {
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">
-        <Search icon={searchIcon} placeholder="Search Item" />
+        <Search
+          icon={searchIcon}
+          placeholder="Search Item"
+          onSearch={handleSearch}
+        />
         <GreenButton icon={add} text="add item" onClick={openModal} />
       </div>
       <div className="vertical-cards">
-        {items?.length > 0 ? (
-          items.map((item) => (
+        {filteredItems?.length > 0 ? (
+          filteredItems.map((item) => (
             <VerticalCard key={item._id} data={item} type="item" />
           ))
         ) : (
