@@ -21,16 +21,20 @@ module.exports = {
   getOrderById: async (req, res) => {},
   createOrder: async (req, res) => {
     try {
-      const { supplier, quantity, totalPrice } = req.body;
+      const { supplier, quantity, totalPrice, date } = req.body;
       // to create the order put the id of the item in the url, orders/:id
       const itemId = req.params.id;
       const item = await Item.findById(itemId);
+
+      // Use current date if no date is provided
+      const orderDate = date || new Date();
 
       const newOrder = await Order.create({
         item: item._id,
         supplier,
         quantity,
         totalPrice,
+        date: orderDate,
       });
 
       await newOrder.save();
