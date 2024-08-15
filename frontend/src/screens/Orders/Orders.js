@@ -112,7 +112,7 @@ const Orders = () => {
                       <td>€{order.totalPrice}</td>
                       <td>€{order.totalPrice / order.quantity}</td>
                       <td>{formattedDate}</td>
-                      <td>{order.supplier.name}</td>
+                      <td className="supplier-name">{order.supplier.name}</td>
                     </tr>
                   );
                 })}
