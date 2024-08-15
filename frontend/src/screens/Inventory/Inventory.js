@@ -14,6 +14,7 @@ const Inventory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/categories`)
@@ -35,6 +36,25 @@ const Inventory = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/orders")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setOrders(data.orders || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  // Calculate total items
   const findTotalItems = (categories) => {
     return categories.reduce(
       (total, category) => total + category.items.length,
@@ -43,6 +63,11 @@ const Inventory = () => {
   };
 
   const totalItems = findTotalItems(categories);
+
+  // Calculate total cost
+  const calculateTotalCost = () => {
+    return orders.reduce((total, order) => total + order.totalPrice, 0);
+  };
 
   const handleAddCategory = (formData) => {
     fetch(`http://localhost:3000/categories`, {
@@ -56,6 +81,7 @@ const Inventory = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  // Search bar
   const handleSearch = (query) => {
     if (query) {
       const filtered = categories.filter((category) =>
@@ -102,10 +128,10 @@ const Inventory = () => {
             Items: <b>{totalItems}</b>
           </span>
           <span>
-            Total orders: <b>25</b>
+            Total orders: <b>{orders.length}</b>
           </span>
           <span>
-            Total costs: <b>€1.250k</b>
+            Total costs: <b>€{calculateTotalCost()}</b>
           </span>
         </div>
         <div className="vertical-cards">

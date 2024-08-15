@@ -4,7 +4,6 @@ import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
 
 const VerticalCard = memo(({ data, type }) => {
-  console.log(data);
   const navigate = useNavigate();
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {

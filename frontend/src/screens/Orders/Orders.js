@@ -26,7 +26,6 @@ const Orders = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setCategory(data.item.category.name);
         setItem(data.item || []);
         setOrders(data.item.orders || []);
@@ -69,7 +68,7 @@ const Orders = () => {
       <div className="inventory-options">
         <div className="item-info">
           <span>
-            Total Orders: <b>{item.orders.length}</b>
+            Total Orders: <b>{orders.length}</b>
           </span>
           <span>
             Total Cost: <b>€{calculateTotalCost()}</b>
@@ -103,7 +102,6 @@ const Orders = () => {
               </thead>
               <tbody>
                 {orders.map((order) => {
-                  console.log(orders);
                   const orderDate = new Date(order.date);
                   const formattedDate = orderDate.toLocaleDateString("en-GB");
                   return (
