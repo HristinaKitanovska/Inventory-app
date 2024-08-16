@@ -8,6 +8,7 @@ import add from "../../assets/icons/add-icon.svg";
 import searchIcon from "../../assets/icons/search.svg";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Modal from "../../modals/Modal/Modal";
+import DeleteItemModal from "../../modals/DeleteItemModal/DeleteItemModal";
 
 const Items = () => {
   const { id } = useParams();
@@ -17,6 +18,8 @@ const Items = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filteredItems, setfilteredItems] = useState([]);
+  const [showDeleteItemModal, setDeleteItemModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null); // state for the item that we want to delete
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
@@ -41,6 +44,7 @@ const Items = () => {
       });
   }, [id]);
 
+  // Add Item
   const handleAddItem = (formData) => {
     formData.append("categoryId", id);
 
@@ -56,6 +60,28 @@ const Items = () => {
       .catch((error) => console.log("Error", error));
   };
 
+  // Delete Item
+  const handleDeleteItem = (itemId) => {
+    fetch(`http://localhost:3000/items/${itemId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete item");
+        }
+        // Update the state to remove the deleted item
+        setItems((prevItems) =>
+          prevItems.filter((item) => item._id !== itemId)
+        );
+        setfilteredItems((prevItems) =>
+          prevItems.filter((item) => item._id !== itemId)
+        );
+        closeDeleteItemModal();
+      })
+      .catch((error) => console.error("Error deleting item:", error));
+  };
+
+  //Search bar
   const handleSearch = (query) => {
     if (query) {
       const filtered = items.filter((item) =>
@@ -67,11 +93,21 @@ const Items = () => {
     }
   };
 
+  // Modal
   const openModal = () => {
     setShowModal(true);
   };
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  // DeleteItemModal
+  const openDeleteItemModal = (itemId) => {
+    setItemToDelete(itemId);
+    setDeleteItemModal(true);
+  };
+  const closeDeleteItemModal = () => {
+    setDeleteItemModal(false);
   };
 
   if (loading) {
@@ -81,7 +117,6 @@ const Items = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-  console.log(items);
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">
@@ -95,12 +130,23 @@ const Items = () => {
       <div className="vertical-cards">
         {filteredItems?.length > 0 ? (
           filteredItems.map((item) => (
-            <VerticalCard key={item._id} data={item} type="item" />
+            <VerticalCard
+              key={item._id}
+              data={item}
+              type="item"
+              onDeleteClick={() => openDeleteItemModal(item._id)}
+            />
           ))
         ) : (
           <p>No items available</p>
         )}
       </div>
+      <DeleteItemModal
+        show={showDeleteItemModal}
+        close={closeDeleteItemModal}
+        onDelete={() => handleDeleteItem(itemToDelete)}
+        itemId={itemToDelete}
+      />
       <Modal
         show={showModal}
         close={closeModal}

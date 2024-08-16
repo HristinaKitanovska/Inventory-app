@@ -3,8 +3,7 @@ import "./VerticalCard.css";
 import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
 
-const VerticalCard = memo(({ data, type }) => {
-  console.log(data);
+const VerticalCard = memo(({ data, type, onDeleteClick }) => {
   const navigate = useNavigate();
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {
@@ -28,14 +27,12 @@ const VerticalCard = memo(({ data, type }) => {
     }
   };
   return (
-    <div
-      key={data.id}
-      className="vertical-card-container"
-      onClick={handleClick}
-    >
+    <div key={data.id} className="vertical-card-container">
       <img src={`http://localhost:3000/${data?.image}`} alt="" />
       <div className="vertical-card-content">
-        <span className="header">{data.name}</span>
+        <span className="header" onClick={handleClick}>
+          {data.name}
+        </span>
         {/* za category prikazuvame kolku items ima */}
         {type === "category" && (
           <span className="info">
@@ -57,7 +54,7 @@ const VerticalCard = memo(({ data, type }) => {
               <b>{formattedDate}</b>
             </span>
           )}
-          <span className="trash-bin">
+          <span className="trash-bin" onClick={onDeleteClick}>
             <img src={trashBinIcon} alt="" />
           </span>
         </div>

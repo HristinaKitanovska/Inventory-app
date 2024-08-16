@@ -1,0 +1,22 @@
+.delete-modal {
+  width: 460px;
+  height: 160px;
+  position: fixed;
+  background-color: #ffffff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.delete-modal > span {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 500;
+  color: #5c5c5c;
+}
