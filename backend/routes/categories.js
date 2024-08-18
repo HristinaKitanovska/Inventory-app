@@ -13,8 +13,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.get("/", controller.getAllCategories);
-router.get("/:id", controller.getCategoryById);
-router.post("/", upload.single("image"), controller.create);
+router
+  .get("/", controller.getAllCategories)
+  .get("/:id", controller.getCategoryById)
+  .post("/", upload.single("image"), controller.create)
+  .delete("/:id", controller.deleteCategory);
 
 module.exports = router;

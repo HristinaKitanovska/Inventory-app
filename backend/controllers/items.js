@@ -1,5 +1,6 @@
 const Item = require("../models/item");
 const Category = require("../models/category");
+const Order = require("../models/order");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -93,7 +94,7 @@ module.exports = {
     // }
 
     try {
-      const item = await Item.findByIdAndDelete(req.params.id);
+      const item = await Item.findById(req.params.id);
 
       if (!item) {
         return res.status(404).send({
@@ -101,6 +102,11 @@ module.exports = {
           message: `Item with id #${req.params.id} not found`,
         });
       }
+
+      // Delete all orders associated with this item
+      await Order.deleteMany({ _id: { $in: item.orders } });
+      // Delete the item itself
+      await Item.findByIdAndDelete(req.params.id);
 
       res.send({
         error: false,
