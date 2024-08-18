@@ -7,6 +7,7 @@ import Search from "../../components/Search/Search";
 import searchIcon from "../../assets/icons/search.svg";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Modal from "../../modals/Modal/Modal";
+import DeleteCategoryModal from "../../modals/DeleteCategoryModal/DeleteCategoryModal";
 
 const Inventory = () => {
   const [categories, setCategories] = useState([]);
@@ -15,6 +16,8 @@ const Inventory = () => {
   const [error, setError] = useState(null);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/categories`)
@@ -69,6 +72,7 @@ const Inventory = () => {
     return orders.reduce((total, order) => total + order.totalPrice, 0);
   };
 
+  // Add new category
   const handleAddCategory = (formData) => {
     fetch(`http://localhost:3000/categories`, {
       method: "POST",
@@ -85,6 +89,27 @@ const Inventory = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  // Delete category
+  const handleDeleteCategory = (categoryId) => {
+    fetch(`http://localhost:3000/categories/${categoryId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete item");
+        }
+        // Update the state to remove the deleted item
+        setCategories((prevCategories) =>
+          prevCategories.filter((category) => category._id !== categoryId)
+        );
+        setFilteredCategories((prevCategories) =>
+          prevCategories.filter((category) => category._id !== categoryId)
+        );
+        closeDeleteCategoryModal();
+      })
+      .catch((error) => console.error("Error deleting item:", error));
+  };
+
   // Search bar
   const handleSearch = (query) => {
     if (query) {
@@ -97,12 +122,21 @@ const Inventory = () => {
     }
   };
 
+  // Modal
   const openModal = () => {
     setShowModal(true);
   };
-
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  // Delete category modal
+  const openDeleteCategoryModal = (categoryId) => {
+    setCategoryToDelete(categoryId);
+    setShowDeleteCategoryModal(true);
+  };
+  const closeDeleteCategoryModal = () => {
+    setShowDeleteCategoryModal(false);
   };
 
   if (loading) {
@@ -145,12 +179,19 @@ const Inventory = () => {
                 key={category._id}
                 data={category}
                 type="category"
+                onDeleteClick={() => openDeleteCategoryModal(category._id)}
               />
             ))
           ) : (
             <p>No categories available</p>
           )}
         </div>
+        <DeleteCategoryModal
+          show={showDeleteCategoryModal}
+          close={closeDeleteCategoryModal}
+          onDelete={() => handleDeleteCategory(categoryToDelete)}
+          categoryId={categoryToDelete}
+        />
         <Modal
           show={showModal}
           close={closeModal}

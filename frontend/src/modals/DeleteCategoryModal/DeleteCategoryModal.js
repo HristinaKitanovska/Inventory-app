@@ -1,22 +1,24 @@
-import "./DeleteItemModal.css";
+import "./DeleteCategoryModal.css";
 import GreyButton from "../../components/GreyButton/GreyButton";
 import GreenButton from "../../components/GreenButton/GreenButton";
 
-const DeleteItemModal = ({ show, close, onDelete, itemId }) => {
+const DeleteCategoryModal = ({ show, close, onDelete, categoryId }) => {
+  console.log(categoryId);
   if (!show) {
     return null;
   }
 
   const handleDeleteClick = (e) => {
     e.stopPropagation(); // Prevent triggering the card's onClick event
-    onDelete(itemId);
+    onDelete(categoryId);
   };
 
   return (
     <>
       <div className={`delete-modal ${show ? "show" : ""}`}>
-        <span className="delete-item-text">
-          Do you want to delete this item?
+        <span className="delete-category-text">
+          Are you sure that you want to delete? <br />
+          All the items in the category will be deleted.
         </span>
         <div className="button-options">
           <GreyButton text="CANCEL" onClick={close} />
@@ -32,4 +34,4 @@ const DeleteItemModal = ({ show, close, onDelete, itemId }) => {
   );
 };
 
-export default DeleteItemModal;
+export default DeleteCategoryModal;

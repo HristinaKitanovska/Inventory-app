@@ -18,7 +18,7 @@ const Items = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filteredItems, setfilteredItems] = useState([]);
-  const [showDeleteItemModal, setDeleteItemModal] = useState(false);
+  const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null); // state for the item that we want to delete
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
@@ -104,10 +104,10 @@ const Items = () => {
   // DeleteItemModal
   const openDeleteItemModal = (itemId) => {
     setItemToDelete(itemId);
-    setDeleteItemModal(true);
+    setShowDeleteItemModal(true);
   };
   const closeDeleteItemModal = () => {
-    setDeleteItemModal(false);
+    setShowDeleteItemModal(false);
   };
 
   if (loading) {
