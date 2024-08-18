@@ -3,7 +3,6 @@ import GreyButton from "../../components/GreyButton/GreyButton";
 import GreenButton from "../../components/GreenButton/GreenButton";
 
 const DeleteCategoryModal = ({ show, close, onDelete, categoryId }) => {
-  console.log(categoryId);
   if (!show) {
     return null;
   }
