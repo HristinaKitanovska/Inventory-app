@@ -63,7 +63,7 @@ const Modal = ({ show, close, onSubmit, mode }) => {
             />
             <div className="line-divider"></div>
             <div className="add-photo-input">
-              <img src={addPhotoIcon} alt="" />
+              <img src={addPhotoIcon} alt="" className="add-photo-icon" />
               <span>(Add Photo, 2MB Total)</span>
               <input
                 type="file"

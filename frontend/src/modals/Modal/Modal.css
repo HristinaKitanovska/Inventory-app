@@ -82,7 +82,7 @@ form {
   font-weight: 500;
 }
 
-.add-photo-input > img {
+.add-photo-icon {
   width: 40px;
 }
 
@@ -93,6 +93,7 @@ form {
 
 .line-divider {
   border-bottom: 1px solid #999999;
-  margin-left: -40px;
-  margin-right: -40px;
+  margin-left: -30px;
+  margin-right: -30px;
+  width: 600px;
 }

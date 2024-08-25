@@ -9,6 +9,8 @@ import searchIcon from "../../assets/icons/search.svg";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Modal from "../../modals/Modal/Modal";
 import DeleteItemModal from "../../modals/DeleteItemModal/DeleteItemModal";
+import editCategory from "../../assets/icons/edit-category.svg";
+import EditCategoryModal from "../../modals/EditCategoryModal/EditCategoryModal";
 
 const Items = () => {
   const { id } = useParams();
@@ -20,6 +22,8 @@ const Items = () => {
   const [filteredItems, setfilteredItems] = useState([]);
   const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null); // state for the item that we want to delete
+  const [showEditCategoryModal, setShowCategoryModal] = useState(false);
+  const [categoryToEdit, setCategoryToEdit] = useState(null);
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
@@ -110,6 +114,15 @@ const Items = () => {
     setShowDeleteItemModal(false);
   };
 
+  // EditCategoryModal
+  const openEditCategoryModal = (category) => {
+    setCategoryToEdit(category);
+    setShowCategoryModal(true);
+  };
+  const closeEditCategoryModal = () => {
+    setShowCategoryModal(false);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -117,6 +130,7 @@ const Items = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
+
   return (
     <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
       <div className="inventory-options">
@@ -141,6 +155,14 @@ const Items = () => {
           <p>No items available</p>
         )}
       </div>
+      <div className="custom-green-button">
+        <GreenButton
+          icon={editCategory}
+          text="edit category"
+          style={{ width: "200px", textTransform: "capitalize" }}
+          onClick={() => openEditCategoryModal(category)}
+        />
+      </div>
       <DeleteItemModal
         show={showDeleteItemModal}
         close={closeDeleteItemModal}
@@ -152,6 +174,11 @@ const Items = () => {
         close={closeModal}
         onSubmit={handleAddItem}
         mode="addItem"
+      />
+      <EditCategoryModal
+        show={showEditCategoryModal}
+        close={closeEditCategoryModal}
+        categoryData={categoryToEdit}
       />
     </AppContainer>
   );
