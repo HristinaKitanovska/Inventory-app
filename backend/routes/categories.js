@@ -17,6 +17,7 @@ router
   .get("/", controller.getAllCategories)
   .get("/:id", controller.getCategoryById)
   .post("/", upload.single("image"), controller.create)
+  .put("/:id", upload.single("image"), controller.updateCategory)
   .delete("/:id", controller.deleteCategory);
 
 module.exports = router;

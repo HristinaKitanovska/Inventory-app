@@ -56,6 +56,48 @@ module.exports = {
       });
     }
   },
+  updateCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const image = req.file ? req.file.path : null;
+
+      // Find the category by ID
+      const category = await Category.findById(id);
+
+      if (!category) {
+        return res.status(404).send({
+          error: true,
+          message: `Category with id #${id} not found`,
+        });
+      }
+
+      // Update the category name if provided
+      if (name) {
+        category.name = name;
+      }
+
+      // Update the image if a new one is provided
+      if (image) {
+        category.image = image;
+      }
+
+      // Save the updated category
+      await category.save();
+
+      res.send({
+        error: false,
+        message: `Category with id #${id} has been updated`,
+        category,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: true,
+        message: "Error updating category",
+        errorDetails: error.message,
+      });
+    }
+  },
   deleteCategory: async (req, res) => {
     try {
       const categoryId = req.params.id;
