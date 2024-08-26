@@ -59,4 +59,57 @@ module.exports = {
       });
     }
   },
+  getTotalPriceForItem: async (req, res) => {
+    try {
+      const itemId = req.params.id;
+
+      // Find all orders that reference the item
+      const orders = await Order.find({ item: itemId });
+
+      // Calculate the total price
+      const totalPrice = orders.reduce(
+        (sum, order) => sum + order.totalPrice,
+        0
+      );
+
+      res.status(200).json({
+        error: false,
+        message: `Total price for item with id #${itemId} calculated successfully`,
+        totalPrice,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: true,
+        message: "Error retrieving orders",
+        errorDetails: error.message,
+      });
+    }
+  },
+  getTotalPriceForcategory: async (req, res) => {
+    try {
+      const categoryId = req.params.id;
+
+      // Find all items in the category
+      const items = await Item.find({ category: categoryId });
+
+      let totalPrice = 0;
+
+      // Loop through each item to calculate the total price of all orders
+      for (const item of items) {
+        const orders = await Order.find({ item: item._id });
+        totalPrice += orders.reduce((sum, order) => sum + order.totalPrice, 0);
+      }
+      res.status(200).json({
+        error: false,
+        message: `Total price for category with id #${categoryId} calculated successfully`,
+        totalPrice,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: true,
+        message: "Error calculating total price",
+        errorDetails: error.message,
+      });
+    }
+  },
 };
