@@ -115,11 +115,6 @@ module.exports = {
       // Get all items associated with this category
       const items = await Item.find({ category: categoryId });
 
-      // Delete all orders associated with each item
-      for (const item of items) {
-        await Order.deleteMany({ _id: { $in: item.orders } });
-      }
-
       // Delete all items associated with this category
       await Item.deleteMany({ category: categoryId });
 
