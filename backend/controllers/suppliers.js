@@ -53,7 +53,16 @@ module.exports = {
   },
   updateSupplier: async (req, res) => {
     try {
-      const supplier = await Supplier.findByIdAndUpdate(req.params.id);
+      const updatedSupplier = await Supplier.findByIdAndUpdate(
+        req.params.id,
+        req.body
+      );
+      if (!updatedSupplier) {
+        return res.status(404).send({
+          error: true,
+          message: `Supplier with id #${req.params.id} not found`,
+        });
+      }
       res.send({
         error: false,
         message: `Supplier with id #${req.params.id} has been updated`,
