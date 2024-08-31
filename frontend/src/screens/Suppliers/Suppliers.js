@@ -7,6 +7,7 @@ import searchIcon from "../../assets/icons/search.svg";
 import add from "../../assets/icons/add-icon.svg";
 import SupplierCard from "../../components/SupplierCard/SupplierCard";
 import AddSupplierModal from "../../modals/AddSupplierModal/AddSupplierModal";
+import DeleteSupplierModal from "../../modals/DeleteSupplierModal/DeleteSupplierModal";
 
 const Suppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -14,6 +15,8 @@ const Suppliers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
+  const [showDeleteSupplierModal, setShowDeleteSupplierModal] = useState(false);
+  const [supplierToDelete, setSupplierToDelete] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/suppliers`)
@@ -60,6 +63,26 @@ const Suppliers = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  // Delete supplier
+  const handleDeleteSupplier = (supplierId) => {
+    fetch(`http://localhost:3000/suppliers/${supplierId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete supplier");
+        }
+        setSuppliers((prevSupplier) =>
+          prevSupplier.filter((supplier) => supplier._id !== supplierId)
+        );
+        setFilteredSuppliers((prevSupplier) =>
+          prevSupplier.filter((supplier) => supplier._id !== supplierId)
+        );
+        closeDeleteSupplierModal();
+      })
+      .catch((error) => console.error("Error deleting supplier:", error));
+  };
+
   // Search bar
   const handleSearch = (query) => {
     if (query) {
@@ -78,6 +101,15 @@ const Suppliers = () => {
   };
   const closeAddSupplierModal = () => {
     setShowAddSupplierModal(false);
+  };
+
+  // Delete supplier modal
+  const openDeleteSupplierModal = (supplierId) => {
+    setSupplierToDelete(supplierId);
+    setShowDeleteSupplierModal(true);
+  };
+  const closeDeleteSupplierModal = () => {
+    setShowDeleteSupplierModal(false);
   };
 
   if (loading) {
@@ -106,7 +138,11 @@ const Suppliers = () => {
         <div className="vertical-cards custom-supplier-card">
           {filteredSuppliers?.length > 0 ? (
             filteredSuppliers.map((supplier) => (
-              <SupplierCard key={supplier._id} data={supplier} />
+              <SupplierCard
+                key={supplier._id}
+                data={supplier}
+                onDeleteClick={() => openDeleteSupplierModal(supplier._id)}
+              />
             ))
           ) : (
             <p>No suppliers available</p>
@@ -116,6 +152,12 @@ const Suppliers = () => {
           show={showAddSupplierModal}
           close={closeAddSupplierModal}
           onSubmit={handleAddSupplier}
+        />
+        <DeleteSupplierModal
+          show={showDeleteSupplierModal}
+          close={closeDeleteSupplierModal}
+          onDelete={() => handleDeleteSupplier(supplierToDelete)}
+          supplierId={supplierToDelete}
         />
       </AppContainer>
     </>

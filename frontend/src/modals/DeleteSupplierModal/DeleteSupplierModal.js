@@ -1,4 +1,6 @@
 import "./DeleteSupplierModal.css";
+import GreyButton from "../../components/GreyButton/GreyButton";
+import GreenButton from "../../components/GreenButton/GreenButton";
 
 const DeleteSupplierModal = ({ show, close, onDelete, supplierId }) => {
   if (!show) {

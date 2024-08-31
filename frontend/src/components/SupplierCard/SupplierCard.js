@@ -2,7 +2,7 @@ import "./SupplierCard.css";
 import editSupplierIcon from "../../assets/icons/edit-supplier.svg";
 import trashBinIcon from "../../assets/icons/trash-bin.svg";
 
-const SupplierCard = ({ data }) => {
+const SupplierCard = ({ data, onDeleteClick }) => {
   return (
     <div className="supplier-card">
       <div className="supplier-header">{data.name}</div>
@@ -29,7 +29,7 @@ const SupplierCard = ({ data }) => {
               />
             </div>
           </span>
-          <span>
+          <span className="trash-bin" onClick={onDeleteClick}>
             <img src={trashBinIcon} alt="" />
           </span>
         </div>
