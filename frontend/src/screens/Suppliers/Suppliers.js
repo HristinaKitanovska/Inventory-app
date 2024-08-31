@@ -24,7 +24,6 @@ const Suppliers = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setSuppliers(data.suppliers || []);
         setFilteredSuppliers(data.suppliers || []);
         setLoading(false);
