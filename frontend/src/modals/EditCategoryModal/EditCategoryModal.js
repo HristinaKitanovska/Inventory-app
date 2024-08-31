@@ -88,7 +88,6 @@ const EditCategoryModal = ({ show, close, categoryData }) => {
               id="categoryName"
               name="categoryName"
               onChange={(e) => setName(e.target.value)}
-              required
             />
             <div className="line-divider"></div>
             {imagePreview ? (

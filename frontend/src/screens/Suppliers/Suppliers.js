@@ -8,6 +8,7 @@ import add from "../../assets/icons/add-icon.svg";
 import SupplierCard from "../../components/SupplierCard/SupplierCard";
 import AddSupplierModal from "../../modals/AddSupplierModal/AddSupplierModal";
 import DeleteSupplierModal from "../../modals/DeleteSupplierModal/DeleteSupplierModal";
+import EditSupplierModal from "../../modals/EditSupplierModal/EditSupplierModal";
 
 const Suppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -17,6 +18,8 @@ const Suppliers = () => {
   const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
   const [showDeleteSupplierModal, setShowDeleteSupplierModal] = useState(false);
   const [supplierToDelete, setSupplierToDelete] = useState(null);
+  const [showEditSupplierModal, setShowEditSupplierModal] = useState(false);
+  const [supplierToEdit, setSupplierToEdit] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/suppliers`)
@@ -83,6 +86,21 @@ const Suppliers = () => {
       .catch((error) => console.error("Error deleting supplier:", error));
   };
 
+  // we use this function to send to the editsupplier modal, and to update the state so we don't have to refresh the page
+  const handleUpdateSupplier = (updatedSupplier) => {
+    setSuppliers((prevSuppliers) =>
+      prevSuppliers.map((supplier) =>
+        supplier._id === updatedSupplier._id ? updatedSupplier : supplier
+      )
+    );
+
+    setFilteredSuppliers((prevSuppliers) =>
+      prevSuppliers.map((supplier) =>
+        supplier._id === updatedSupplier._id ? updatedSupplier : supplier
+      )
+    );
+  };
+
   // Search bar
   const handleSearch = (query) => {
     if (query) {
@@ -110,6 +128,15 @@ const Suppliers = () => {
   };
   const closeDeleteSupplierModal = () => {
     setShowDeleteSupplierModal(false);
+  };
+
+  // Edit supplier modal
+  const openEditSupplierModal = (supplier) => {
+    setSupplierToEdit(supplier);
+    setShowEditSupplierModal(true);
+  };
+  const closeEditSupplierModal = () => {
+    setShowEditSupplierModal(false);
   };
 
   if (loading) {
@@ -142,6 +169,7 @@ const Suppliers = () => {
                 key={supplier._id}
                 data={supplier}
                 onDeleteClick={() => openDeleteSupplierModal(supplier._id)}
+                onEditClick={() => openEditSupplierModal(supplier)}
               />
             ))
           ) : (
@@ -158,6 +186,12 @@ const Suppliers = () => {
           close={closeDeleteSupplierModal}
           onDelete={() => handleDeleteSupplier(supplierToDelete)}
           supplierId={supplierToDelete}
+        />
+        <EditSupplierModal
+          show={showEditSupplierModal}
+          close={closeEditSupplierModal}
+          supplierData={supplierToEdit}
+          onUpdateSupplier={handleUpdateSupplier}
         />
       </AppContainer>
     </>
