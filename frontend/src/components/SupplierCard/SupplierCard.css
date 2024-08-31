@@ -1,0 +1,65 @@
+.supplier-card {
+  width: 305px;
+  height: 315px;
+  border-radius: 10px;
+  border: 1px solid #000000;
+}
+
+.supplier-header {
+  border-radius: 10px;
+  background-color: #53a856;
+  border: 1px solid #000000;
+  text-align: center;
+  padding: 20px 0px;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.supplier-content {
+  padding: 20px 10px 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  color: #000000;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 36px;
+}
+
+.value {
+  color: #3e4153;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+.edit-supplier {
+  background-color: #d9d9d9;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-supplier-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.supplier-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.address,
+.phone,
+.email {
+  border-bottom: 2px solid #5c5c5c;
+}
