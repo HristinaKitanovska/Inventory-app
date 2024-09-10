@@ -7,6 +7,7 @@ import add from "../../assets/icons/add-icon.svg";
 import edit from "../../assets/icons/edit.svg";
 import addFolder from "../../assets/icons/add-folder.svg";
 import AddOrderModal from "../../modals/AddOrderModal/AddOrderModal";
+import AddInvoiceModal from "../../modals/AddInvoiceModal/AddInvoiceModal";
 
 const Orders = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:3000/items/${id}`)
@@ -47,11 +49,20 @@ const Orders = () => {
     setOrders((prevOrders) => [...prevOrders, newOrder]);
   };
 
+  // Add order modal
   const openModal = () => {
     setShowModal(true);
   };
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  // Add new invoice
+  const openAddInvoiceModal = () => {
+    setShowAddInvoiceModal(true);
+  };
+  const closeAddInvoiceModal = () => {
+    setShowAddInvoiceModal(false);
   };
 
   if (loading) {
@@ -86,6 +97,7 @@ const Orders = () => {
             <GreenButton
               text="generate invoice"
               style={{ textTransform: "capitalize", padding: "10px 20px" }}
+              onClick={openAddInvoiceModal}
             />
           </div>
           {/* table orders */}
@@ -153,6 +165,11 @@ const Orders = () => {
         close={closeModal}
         itemId={id}
         addOrder={addOrderToList}
+      />
+      <AddInvoiceModal
+        show={showAddInvoiceModal}
+        close={closeAddInvoiceModal}
+        itemId={id} // we are sending the id of item to the modal
       />
     </AppContainer>
   );

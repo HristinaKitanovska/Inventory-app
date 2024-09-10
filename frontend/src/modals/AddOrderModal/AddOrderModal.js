@@ -108,6 +108,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
             <input
               className="form-name"
               placeholder={isQuantityPlaceholderHidden ? "" : "Quantity"}
+              name="quantity"
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
@@ -118,6 +119,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
             <input
               className="form-name"
               placeholder={isTotalPricePlaceholderHidden ? "" : "Total Price"}
+              name="totalPrice"
               type="number"
               value={totalPrice}
               onChange={(e) => setTotalPrice(e.target.value)}
@@ -128,6 +130,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
             <div className="date-picker">
               <input
                 type="date"
+                name="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
               />
