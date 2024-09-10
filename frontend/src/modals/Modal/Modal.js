@@ -49,7 +49,7 @@ const Modal = ({ show, close, onSubmit, mode }) => {
           </span>
         </div>
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form className="modal-form" onSubmit={handleSubmit}>
             <input
               className="form-name"
               placeholder={isPlaceholderHidden ? "" : "Name"}

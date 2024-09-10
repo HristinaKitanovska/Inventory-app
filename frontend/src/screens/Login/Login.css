@@ -1,0 +1,39 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #eaeaea;
+  height: 100vh;
+}
+
+.welcome-back {
+  font-size: 38px;
+  font-weight: 400;
+  color: #3e4153;
+  line-height: 57px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 30px;
+  width: 250px;
+}
+
+.login-form-input {
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #3e4153;
+  font-size: 20px;
+}
+
+.sign-up-account {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -50,7 +50,7 @@
   cursor: pointer;
 }
 
-form {
+.modal-form {
   background-color: #ffffff;
   height: 340px;
   padding: 30px;
