@@ -18,7 +18,24 @@ module.exports = {
       });
     }
   },
-  getOrderById: async (req, res) => {},
+  getOrdersByItemId: async (req, res) => {
+    const itemId = req.params.id;
+
+    try {
+      const orders = await Order.find({ item: itemId });
+      res.send({
+        error: false,
+        message: "All orders from database",
+        orders: orders,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: true,
+        message: "Error fetching orders",
+        errorDetails: error.message,
+      });
+    }
+  },
   createOrder: async (req, res) => {
     try {
       const { supplier, quantity, totalPrice, date } = req.body;
