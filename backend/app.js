@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const cors = require("cors");
 
@@ -12,6 +13,7 @@ var categoriesRouter = require("./routes/categories");
 var itemsRouter = require("./routes/items");
 var suppliersRouter = require("./routes/suppliers");
 var ordersRouter = require("./routes/orders");
+var usersRouter = require("./routes/users");
 
 var app = express();
 mongoose.connect("mongodb://127.0.0.1:33123/inventory");
@@ -35,6 +37,7 @@ app.use("/categories", categoriesRouter);
 app.use("/items", itemsRouter);
 app.use("/suppliers", suppliersRouter);
 app.use("/orders", ordersRouter);
+app.use("/auth", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
