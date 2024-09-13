@@ -42,11 +42,11 @@ module.exports = {
         return res.status(400).json({ error: "User already exists" });
       }
 
-      // Create a new user instance
+      // Create a new user
       const newUser = new User({
-        name, // add name field
+        name,
         email,
-        password, // no need to hash manually, Mongoose will handle it
+        password,
       });
 
       await newUser.save();
