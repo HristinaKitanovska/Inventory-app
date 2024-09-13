@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import logo from "../../assets/icons/logo-dolphin.svg";
 import GreenButton from "../../components/GreenButton/GreenButton";
 import AuthContext from "../../utils/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -55,14 +56,16 @@ const Login = () => {
       </form>
       <div className="sign-up-account">
         <span>Don't have an account?</span>
-        <GreenButton
-          text="sign up"
-          style={{
-            backgroundColor: "#EAEAEA",
-            color: "#53A856",
-            border: "1px solid #53A856",
-          }}
-        />
+        <Link to="/signup">
+          <GreenButton
+            text="sign up"
+            style={{
+              backgroundColor: "#EAEAEA",
+              color: "#53A856",
+              border: "1px solid #53A856",
+            }}
+          />
+        </Link>
       </div>
     </div>
   );
