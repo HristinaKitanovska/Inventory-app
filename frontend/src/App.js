@@ -6,6 +6,7 @@ import Suppliers from "./screens/Suppliers/Suppliers";
 import Items from "./screens/Items/Items";
 import Orders from "./screens/Orders/Orders";
 import Login from "./screens/Login/Login";
+import Signup from "./screens/Signup/Signup";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
           {/*check if should be name or categoryName */}
