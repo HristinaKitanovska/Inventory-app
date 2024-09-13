@@ -56,16 +56,21 @@ const Login = () => {
       </form>
       <div className="sign-up-account">
         <span>Don't have an account?</span>
-        <Link to="/signup">
-          <GreenButton
-            text="sign up"
-            style={{
-              backgroundColor: "#EAEAEA",
-              color: "#53A856",
-              border: "1px solid #53A856",
-            }}
-          />
-        </Link>
+        <GreenButton
+          text="sign up"
+          style={{
+            backgroundColor: "#EAEAEA",
+            color: "#53A856",
+            border: "1px solid #53A856",
+          }}
+        >
+          <Link
+            to="/signup"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            Sign up
+          </Link>
+        </GreenButton>
       </div>
     </div>
   );
