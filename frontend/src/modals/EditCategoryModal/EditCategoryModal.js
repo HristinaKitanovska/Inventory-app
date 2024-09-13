@@ -80,7 +80,7 @@ const EditCategoryModal = ({ show, close, categoryData }) => {
           </span>
         </div>
         <div className="modal-content">
-          <form onSubmit={handleSubmit} className="edit-form">
+          <form onSubmit={handleSubmit} className="edit-form modal-form">
             <input
               className="form-name"
               value={name}

@@ -69,7 +69,7 @@ const EditSupplierModal = ({ show, close, supplierData, onUpdateSupplier }) => {
           </span>
         </div>
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form className="modal-form" onSubmit={handleSubmit}>
             <input
               className="form-name"
               type="text"

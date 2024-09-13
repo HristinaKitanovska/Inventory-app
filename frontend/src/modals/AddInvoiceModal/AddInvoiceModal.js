@@ -57,7 +57,7 @@ const AddInvoiceModal = ({ show, close, itemId }) => {
           </span>
         </div>
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form className="modal-form" onSubmit={handleSubmit}>
             <input
               className="form-name"
               placeholder={isInvoiceNamePlaceholderHidden ? "" : "Invoice Name"}

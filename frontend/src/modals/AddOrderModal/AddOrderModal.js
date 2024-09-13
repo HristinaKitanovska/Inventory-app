@@ -89,7 +89,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
           </span>
         </div>
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form className="modal-form" onSubmit={handleSubmit}>
             <select
               className="form-name"
               value={selectedSupplier}
