@@ -26,8 +26,8 @@ module.exports = {
         expiresIn: "1h",
       });
 
-      // Send the token as a response
-      res.json({ token });
+      const { password: _, ...userWithoutPassword } = user.toObject(); // Exclude the password field
+      res.json({ token, user: userWithoutPassword });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Server error" });

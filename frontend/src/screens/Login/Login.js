@@ -25,7 +25,7 @@ const Login = () => {
     const data = await response.json();
 
     if (response.ok) {
-      login(data.token);
+      login(data.token, data.user);
       alert("Login successful");
       navigate("/dashboard");
     } else {

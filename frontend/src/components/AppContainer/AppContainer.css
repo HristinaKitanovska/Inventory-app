@@ -23,6 +23,8 @@
 
 .navbar {
   /* margin: 46px 35px 0px 35px; */
+  display: flex;
+  justify-content: space-between;
   margin-top: 35px;
   width: 90%;
   height: 74px;
@@ -35,4 +37,15 @@
   font-weight: 400;
   color: #3e4153;
   line-height: 57px;
+}
+
+.user-info-container {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  font-size: 26px;
+  line-height: 39px;
+  font-weight: 400;
 }
