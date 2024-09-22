@@ -1,4 +1,7 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./utils/AuthContext";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import PublicRoute from "./utils/PublicRoute";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import Inventory from "./screens/Inventory/Inventory";
 import Reports from "./screens/Reports/Reports";
@@ -10,21 +13,81 @@ import Signup from "./screens/Signup/Signup";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/inventory" element={<Inventory />} />
-          {/*check if should be name or categoryName */}
-          <Route path="/inventory/:categoryName/:id" element={<Items />} />
-          <Route path="/inventory/item/:itemName/:id" element={<Orders />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/suppliers" element={<Suppliers />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Public routes */}
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <Signup />
+                </PublicRoute>
+              }
+            />
+            {/* Protected routes */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventory"
+              element={
+                <ProtectedRoute>
+                  <Inventory />
+                </ProtectedRoute>
+              }
+            />
+            {/*check if should be name or categoryName */}
+            <Route
+              path="/inventory/:categoryName/:id"
+              element={
+                <ProtectedRoute>
+                  <Items />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventory/item/:itemName/:id"
+              element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/suppliers"
+              element={
+                <ProtectedRoute>
+                  <Suppliers />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
