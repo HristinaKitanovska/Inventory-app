@@ -1,5 +1,5 @@
 import "./Items.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AppContainer from "../../components/AppContainer/AppContainer";
 import Search from "../../components/Search/Search";
@@ -11,8 +11,10 @@ import Modal from "../../modals/Modal/Modal";
 import DeleteItemModal from "../../modals/DeleteItemModal/DeleteItemModal";
 import editCategory from "../../assets/icons/edit-category.svg";
 import EditCategoryModal from "../../modals/EditCategoryModal/EditCategoryModal";
+import AuthContext from "../../utils/AuthContext";
 
 const Items = () => {
+  const { authToken } = useContext(AuthContext);
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState([]);
@@ -28,7 +30,20 @@ const Items = () => {
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
   useEffect(() => {
-    fetch(`http://localhost:3000/categories/${id}`)
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      setError("Authorization token missing. Please log in.");
+      setLoading(false);
+      return;
+    }
+
+    fetch(`http://localhost:3000/categories/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -46,7 +61,7 @@ const Items = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, [id]);
+  }, [id, authToken]);
 
   // Add Item
   const handleAddItem = (formData) => {
@@ -54,6 +69,10 @@ const Items = () => {
 
     fetch("http://localhost:3000/items", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
       body: formData,
     })
       .then((response) => response.json())
@@ -68,6 +87,10 @@ const Items = () => {
   const handleDeleteItem = (itemId) => {
     fetch(`http://localhost:3000/items/${itemId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => {
         if (!response.ok) {

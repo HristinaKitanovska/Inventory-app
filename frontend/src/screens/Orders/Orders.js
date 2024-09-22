@@ -1,5 +1,5 @@
 import "./Orders.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AppContainer from "../../components/AppContainer/AppContainer";
 import GreenButton from "../../components/GreenButton/GreenButton";
@@ -8,8 +8,10 @@ import edit from "../../assets/icons/edit.svg";
 import addFolder from "../../assets/icons/add-folder.svg";
 import AddOrderModal from "../../modals/AddOrderModal/AddOrderModal";
 import AddInvoiceModal from "../../modals/AddInvoiceModal/AddInvoiceModal";
+import AuthContext from "../../utils/AuthContext";
 
 const Orders = () => {
+  const { authToken } = useContext(AuthContext);
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const [item, setItem] = useState({});
@@ -20,7 +22,20 @@ const Orders = () => {
   const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/items/${id}`)
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      setError("Authorization token missing. Please log in.");
+      setLoading(false);
+      return;
+    }
+
+    fetch(`http://localhost:3000/items/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -38,7 +53,7 @@ const Orders = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, [id]);
+  }, [id, authToken]);
 
   const calculateTotalCost = () => {
     return orders.reduce((total, order) => total + order.totalPrice, 0);
@@ -125,7 +140,9 @@ const Orders = () => {
                           €{(order.totalPrice / order.quantity).toFixed(2)}
                         </td>
                         <td>{formattedDate}</td>
-                        <td className="supplier-name">{order.supplier.name}</td>
+                        <td className="supplier-name">
+                          {order.supplier?.name}
+                        </td>
                       </tr>
                     );
                   })

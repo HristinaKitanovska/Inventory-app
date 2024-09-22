@@ -1,24 +1,45 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useContext } from "react";
 import "./VerticalCard.css";
 import trashBinIcon from "../../assets/icons/trash-bin.svg";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../utils/AuthContext";
 
 const VerticalCard = memo(({ data, type, onDeleteClick }) => {
+  const { authToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      return;
+    }
+
     const fetchTotalPrice = async () => {
       try {
         let response;
 
         if (type === "item") {
           response = await fetch(
-            `http://localhost:3000/orders/item/${data._id}`
+            `http://localhost:3000/orders/item/${data._id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
           );
         } else if (type === "category") {
           response = await fetch(
-            `http://localhost:3000/orders/category/${data._id}`
+            `http://localhost:3000/orders/category/${data._id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
           );
         }
 
@@ -34,7 +55,7 @@ const VerticalCard = memo(({ data, type, onDeleteClick }) => {
     };
 
     fetchTotalPrice();
-  }, [data._id, type]);
+  }, [data._id, type, authToken]);
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {
     year: "numeric",

@@ -1,10 +1,12 @@
 import "./AddInvoiceModal.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import closeIcon from "../../assets/icons/close-icon.svg";
 import GreenButton from "../../components/GreenButton/GreenButton";
 import GreyButton from "../../components/GreyButton/GreyButton";
+import AuthContext from "../../utils/AuthContext";
 
 const AddInvoiceModal = ({ show, close, itemId }) => {
+  const { authToken } = useContext(AuthContext);
   const [invoiceName, setInvoiceName] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
@@ -15,15 +17,32 @@ const AddInvoiceModal = ({ show, close, itemId }) => {
     useState(false);
 
   useEffect(() => {
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      return;
+    }
+
     if (show && itemId) {
       // Fetch suppliers
-      fetch(`http://localhost:3000/suppliers`)
+      fetch(`http://localhost:3000/suppliers`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => response.json())
         .then((data) => setSuppliers(data.suppliers || []))
         .catch((error) => console.error("Error fetching suppliers:", error));
 
       // Fetch orders for the selected item
-      fetch(`http://localhost:3000/orders/invoice/${itemId}`)
+      fetch(`http://localhost:3000/orders/invoice/${itemId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => response.json())
         .then((data) => setOrders(data.orders || []))
         .catch((error) => console.error("Error fetching orders:", error));
@@ -34,7 +53,7 @@ const AddInvoiceModal = ({ show, close, itemId }) => {
       setSelectedDate("");
       setSelectedOrder("");
     }
-  }, [show, itemId]);
+  }, [show, itemId, authToken]);
 
   const handleInvoiceNameFocus = () => {
     setIsInvoiceNamePlaceholderHidden(true);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./Inventory.css";
 import AppContainer from "../../components/AppContainer/AppContainer";
 import GreenButton from "../../components/GreenButton/GreenButton";
@@ -8,8 +8,10 @@ import searchIcon from "../../assets/icons/search.svg";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Modal from "../../modals/Modal/Modal";
 import DeleteCategoryModal from "../../modals/DeleteCategoryModal/DeleteCategoryModal";
+import AuthContext from "../../utils/AuthContext";
 
 const Inventory = () => {
+  const { authToken } = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,20 @@ const Inventory = () => {
   const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/categories`)
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      setError("Authorization token missing. Please log in.");
+      setLoading(false);
+      return;
+    }
+
+    fetch(`http://localhost:3000/categories`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -37,10 +52,23 @@ const Inventory = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [authToken]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/orders")
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      setError("Authorization token missing. Please log in.");
+      setLoading(false);
+      return;
+    }
+
+    fetch("http://localhost:3000/orders", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -55,7 +83,7 @@ const Inventory = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [authToken]);
 
   // Calculate total items
   const findTotalItems = (categories) => {
@@ -76,6 +104,10 @@ const Inventory = () => {
   const handleAddCategory = (formData) => {
     fetch(`http://localhost:3000/categories`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
       body: formData,
     })
       .then((response) => response.json())
@@ -93,6 +125,10 @@ const Inventory = () => {
   const handleDeleteCategory = (categoryId) => {
     fetch(`http://localhost:3000/categories/${categoryId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => {
         if (!response.ok) {

@@ -1,23 +1,30 @@
 import "./EditSupplierModal.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import closeIcon from "../../assets/icons/close-icon.svg";
 import GreenButton from "../../components/GreenButton/GreenButton";
 import GreyButton from "../../components/GreyButton/GreyButton";
+import AuthContext from "../../utils/AuthContext";
 
 const EditSupplierModal = ({ show, close, supplierData, onUpdateSupplier }) => {
+  const { authToken } = useContext(AuthContext);
   const [name, setName] = useState(supplierData?.name || "");
   const [address, setAddress] = useState(supplierData?.address || "");
   const [phone, setPhone] = useState(supplierData?.phone || "");
   const [email, setEmail] = useState(supplierData?.email || "");
 
   useEffect(() => {
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      return;
+    }
+
     if (supplierData) {
       setName(supplierData.name);
       setAddress(supplierData.address);
       setPhone(supplierData.phone);
       setEmail(supplierData.email);
     }
-  }, [supplierData]);
+  }, [supplierData, authToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +41,7 @@ const EditSupplierModal = ({ show, close, supplierData, onUpdateSupplier }) => {
         {
           method: "PUT",
           headers: {
+            Authorization: `Bearer ${authToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedSupplierData),

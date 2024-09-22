@@ -1,10 +1,12 @@
 import "./AddOrderModal.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import closeIcon from "../../assets/icons/close-icon.svg";
 import GreenButton from "../../components/GreenButton/GreenButton";
 import GreyButton from "../../components/GreyButton/GreyButton";
+import AuthContext from "../../utils/AuthContext";
 
 const AddOrderModal = ({ show, close, itemId, addOrder }) => {
+  const { authToken } = useContext(AuthContext);
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -17,8 +19,19 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
     useState(false);
 
   useEffect(() => {
+    if (!authToken) {
+      console.error("No auth token available. Please log in again.");
+      return;
+    }
+
     if (show) {
-      fetch("http://localhost:3000/suppliers")
+      fetch("http://localhost:3000/suppliers", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           setSuppliers(data.suppliers || []);
@@ -32,7 +45,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
       setTotalPrice("");
       setSelectedDate("");
     }
-  }, [show]);
+  }, [show, authToken]);
 
   const handleQuantityFocus = () => {
     setIsQuantityPlaceholderHidden(true);
@@ -62,6 +75,7 @@ const AddOrderModal = ({ show, close, itemId, addOrder }) => {
     fetch(`http://localhost:3000/orders/${itemId}`, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(orderData),
