@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     minlength: [6, "Password must be at least 6 characters long."],
     validate: [
       validator.isStrongPassword,
-      "Enter a combination of at least six numbers, letters or punctuation marks.",
+      "Enter a combination of at least eight numbers, letters or punctuation marks.",
     ],
   },
   role: {
