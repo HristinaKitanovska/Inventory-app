@@ -129,4 +129,29 @@ module.exports = {
       });
     }
   },
+  getTotalCostOfAllOrders: async (req, res) => {
+    try {
+      const items = await Item.find();
+
+      let totalCost = 0;
+
+      // Loop through all items and calculate the total price of all their orders
+      for (const item of items) {
+        const orders = await Order.find({ item: item._id });
+        totalCost += orders.reduce((sum, order) => sum + order.totalPrice, 0);
+      }
+
+      res.status(200).json({
+        error: false,
+        message: "Total cost of all orders calculated successfully",
+        totalCost,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: true,
+        message: "Error calculating total cost of all orders",
+        errorDetails: error.message,
+      });
+    }
+  },
 };
