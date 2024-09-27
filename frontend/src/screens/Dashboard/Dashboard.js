@@ -98,6 +98,7 @@ const Dashboard = () => {
         style={{ backgroundColor: "#FFFFFF" }}
       >
         <div className="main-container">
+          {/* Inventory Summary */}
           <div className="info-container">
             <span className="info-container-header">Inventory Summary</span>
             <div className="info-container-summary">
@@ -131,9 +132,26 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+          {/* Recent Activity */}
           <div className="info-container">
             <span className="info-container-header">Recent Activity</span>
-            <div></div>
+            <div className="info-container-activity">
+              <div className="recent-activity">
+                Admin has created item Office Pens in Office Supply (Office
+                Category)
+              </div>
+              <div className="recent-activity">
+                Admin has created item A4 Paper in Office Supply (Office
+                Category)
+              </div>
+              <div className="recent-activity">
+                Admin has deleted item Espresso in Kitchen Supply (Kitchen
+                Category){" "}
+              </div>
+              <div className="recent-activity">
+                Admin has moved item Mouse in Office Supply (Office Category)
+              </div>
+            </div>
           </div>
           <div className="info-container">
             <span className="info-container-header">Recent Orders</span>
