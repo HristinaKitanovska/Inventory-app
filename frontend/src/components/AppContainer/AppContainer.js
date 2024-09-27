@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import AuthContext from "../../utils/AuthContext";
 import userIcon from "../../assets/icons/user.svg";
 
-const AppContainer = ({ children, pageTitle }) => {
+const AppContainer = ({ children, pageTitle, style }) => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
 
@@ -14,7 +14,7 @@ const AppContainer = ({ children, pageTitle }) => {
   return (
     <div className="app-container">
       <Sidebar />
-      <div className="app-container-content">
+      <div className="app-container-content" style={style}>
         <div className="navbar">
           <div className="navbar-content">{pageTitle}</div>
           <div className="user-info-container">

@@ -1,0 +1,66 @@
+.main-container {
+  margin: auto;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.info-container {
+  width: 770px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: aquamarine;
+}
+
+.info-container-header {
+  color: #000000;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 33px;
+}
+/* Inventory Summary */
+.info-container-summary {
+  display: flex;
+  gap: 20px;
+  align-self: flex-end;
+}
+
+.summary {
+  width: 170px;
+  height: 170px;
+  background-color: #ffffff;
+  box-shadow: 3px 4px 4px 0px #00000040;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle img {
+  object-fit: contain;
+}
+
+.total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4f5366;
+}
+.name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f5366;
+}
