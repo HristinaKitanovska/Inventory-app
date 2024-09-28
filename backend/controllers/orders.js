@@ -154,4 +154,25 @@ module.exports = {
       });
     }
   },
+  getRecentOrders: async (req, res) => {
+    try {
+      const recentOrders = await Order.find()
+        .sort({ createdAt: -1 }) // Sort by creation date, newest first
+        .limit(8) // Limit to 8 recent orders
+        .populate("item", "name image");
+
+      res.status(200).json({
+        error: false,
+        message: "Recent orders fetched successfully",
+        recentOrders,
+      });
+    } catch (error) {
+      console.error("Error fetching recent orders:", error);
+      res.status(500).json({
+        error: true,
+        message: "Error fetching recent orders",
+        errorDetails: error.message,
+      });
+    }
+  },
 };
