@@ -7,12 +7,14 @@ import totalCostSummary from "../../assets/icons/total-cost-summary.svg";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/AuthContext";
+import Carousel from "../../components/Carousel/Carousel";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(0);
   const [items, setItems] = useState(0);
   const [orders, setOrders] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
+  const [recentOrders, setRecentOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { authToken } = useContext(AuthContext);
@@ -70,6 +72,19 @@ const Dashboard = () => {
             throw new Error("Failed to fetch total cost");
           const totalCostData = await totalCostResponse.json();
           setTotalCost(totalCostData.totalCost);
+
+          // Fetch recent orders
+          const recentOrdersResponse = await fetch(
+            "http://localhost:3000/orders/recent",
+            {
+              method: "GET",
+              headers,
+            }
+          );
+          if (!recentOrdersResponse.ok)
+            throw new Error("Failed to fetch recent orders");
+          const recentOrdersData = await recentOrdersResponse.json();
+          setRecentOrders(recentOrdersData.recentOrders);
 
           setLoading(false);
         } catch (error) {
@@ -155,7 +170,9 @@ const Dashboard = () => {
           </div>
           <div className="info-container">
             <span className="info-container-header">Recent Orders</span>
-            <div></div>
+            <div className="info-container-orders">
+              <Carousel recentOrders={recentOrders} />
+            </div>
           </div>
         </div>
       </AppContainer>
