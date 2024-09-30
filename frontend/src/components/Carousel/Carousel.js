@@ -34,7 +34,7 @@ const Carousel = ({ recentOrders }) => {
         {recentOrders
           .slice(currentIndex, currentIndex + itemsPerPage)
           .map((recentOrder) => (
-            <div key={recentOrder.id} className="carousel-card">
+            <div key={recentOrder._id} className="carousel-card">
               <img
                 className="recent-item-image"
                 src={`http://localhost:3000/${recentOrder.item.image}`}
