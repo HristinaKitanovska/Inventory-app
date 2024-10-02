@@ -14,6 +14,7 @@ var itemsRouter = require("./routes/items");
 var suppliersRouter = require("./routes/suppliers");
 var ordersRouter = require("./routes/orders");
 var usersRouter = require("./routes/users");
+var activitiesRouter = require("./routes/activities");
 
 var app = express();
 mongoose.connect("mongodb://127.0.0.1:33123/inventory");
@@ -38,6 +39,7 @@ app.use("/items", itemsRouter);
 app.use("/suppliers", suppliersRouter);
 app.use("/orders", ordersRouter);
 app.use("/auth", usersRouter);
+app.use("/activities", activitiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
