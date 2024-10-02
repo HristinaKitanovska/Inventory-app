@@ -48,7 +48,6 @@ const EditCategoryModal = ({ show, close, categoryData }) => {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${authToken}`,
-            "Content-Type": "application/json",
           },
           body: formData,
         }

@@ -71,7 +71,6 @@ const Items = () => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "Content-Type": "application/json",
       },
       body: formData,
     })
@@ -89,7 +88,6 @@ const Items = () => {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "Content-Type": "application/json",
       },
     })
       .then((response) => {
@@ -166,14 +164,16 @@ const Items = () => {
       </div>
       <div className="vertical-cards">
         {filteredItems?.length > 0 ? (
-          filteredItems.map((item) => (
-            <VerticalCard
-              key={item._id}
-              data={item}
-              type="item"
-              onDeleteClick={() => openDeleteItemModal(item._id)}
-            />
-          ))
+          filteredItems
+            .filter((item) => item)
+            .map((item) => (
+              <VerticalCard
+                key={item._id}
+                data={item}
+                type="item"
+                onDeleteClick={() => openDeleteItemModal(item._id)}
+              />
+            ))
         ) : (
           <p>No items available</p>
         )}
