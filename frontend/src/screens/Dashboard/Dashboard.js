@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [orders, setOrders] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [recentActivities, setRecentActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { authToken } = useContext(AuthContext);
@@ -86,6 +87,19 @@ const Dashboard = () => {
           const recentOrdersData = await recentOrdersResponse.json();
           setRecentOrders(recentOrdersData.recentOrders);
 
+          // Fetch recent activities
+          const activitiesResponse = await fetch(
+            "http://localhost:3000/activities/recent",
+            {
+              method: "GET",
+              headers,
+            }
+          );
+          if (!activitiesResponse.ok)
+            throw new Error("Failed to fetch activities");
+          const activitiesData = await activitiesResponse.json();
+          setRecentActivities(activitiesData.logsWithItemInfo);
+
           setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -151,21 +165,17 @@ const Dashboard = () => {
           <div className="info-container">
             <span className="info-container-header">Recent Activity</span>
             <div className="info-container-activity">
-              <div className="recent-activity">
-                Admin has created item Office Pens in Office Supply (Office
-                Category)
-              </div>
-              <div className="recent-activity">
-                Admin has created item A4 Paper in Office Supply (Office
-                Category)
-              </div>
-              <div className="recent-activity">
-                Admin has deleted item Espresso in Kitchen Supply (Kitchen
-                Category){" "}
-              </div>
-              <div className="recent-activity">
-                Admin has moved item Mouse in Office Supply (Office Category)
-              </div>
+              {recentActivities.map((activity, index) => (
+                <div className="recent-activity" key={index}>
+                  {`${activity.user.name} has ${activity.action} item `}
+                  <strong>{activity.item.name}</strong>
+                  {` in `}
+                  <strong>
+                    {activity.category.name}{" "}
+                    {` (${activity.category.name} Category)`}
+                  </strong>
+                </div>
+              ))}
             </div>
           </div>
           <div className="info-container">

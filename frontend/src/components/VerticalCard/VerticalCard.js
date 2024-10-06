@@ -97,7 +97,7 @@ const VerticalCard = memo(({ data, type, onDeleteClick }) => {
           </span>
         )}
 
-        <div className="footer">
+        <div className={`footer ${type === "item" ? "item-footer" : ""}`}>
           {type === "category" && (
             <span className="last-update">
               Updated At:
