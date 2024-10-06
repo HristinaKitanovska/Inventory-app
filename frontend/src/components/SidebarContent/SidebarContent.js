@@ -21,7 +21,7 @@ const SidebarContent = () => {
   const generateSidebarLinks = () => {
     return sidebarLinks.map((link, index) => (
       <div className="sidebar-link" key={index}>
-        {link.imageSrc && <img src={link.imageSrc} alt={link.label} />}
+        {link.imageSrc && <img src={link.imageSrc} alt="" />}
         <Link to={link.path}>
           <p className={!link.imageSrc ? "without-image" : ""}>{link.label}</p>
         </Link>
