@@ -12,6 +12,10 @@ const activitySchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "item",
     },
+    itemName: {
+      type: String,
+      required: true,
+    },
     category: {
       type: mongoose.Types.ObjectId,
       ref: "category",

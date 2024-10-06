@@ -75,6 +75,7 @@ module.exports = {
       const activity = await Activity.create({
         action: "created",
         item: newItem._id,
+        itemName: newItem.name,
         category: categoryId,
         user: req.user.userId,
       });
@@ -113,6 +114,7 @@ module.exports = {
         user: req.user.userId,
         category: item.category._id,
         item: item._id,
+        itemName: item.name,
       });
       await activity.save();
 
