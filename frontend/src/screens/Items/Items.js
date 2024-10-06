@@ -153,7 +153,7 @@ const Items = () => {
   }
 
   return (
-    <AppContainer pageTitle={category ? "Inventory/" + category.name : ""}>
+    <AppContainer pageTitle={category ? "Inventory > " + category.name : ""}>
       <div className="inventory-options">
         <Search
           icon={searchIcon}

@@ -89,7 +89,7 @@ const Orders = () => {
   }
   return (
     <AppContainer
-      pageTitle={item ? "Inventory/" + category + "/" + item.name : ""}
+      pageTitle={item ? "Inventory > " + category + " > " + item.name : ""}
     >
       <div className="inventory-options">
         <div className="item-info">

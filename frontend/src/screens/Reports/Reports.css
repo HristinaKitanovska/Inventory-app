@@ -1,0 +1,29 @@
+.reports-info {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #000000;
+}
+
+.activity-history {
+  padding-top: 50px;
+}
+
+.reports-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 38px;
+  font-weight: 400;
+  color: #5c5c5c;
+}
+
+.reports-content {
+  font-size: 22px;
+  font-weight: 400;
+  color: #5c5c5c;
+}
+
+.reports-link {
+  cursor: pointer;
+  text-decoration: none;
+}
