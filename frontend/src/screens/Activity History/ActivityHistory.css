@@ -1,0 +1,40 @@
+.activity-history-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+
+.filtered-activites {
+  width: 350px;
+  height: 540px;
+  background-color: #ffffff;
+  width: 30%;
+  border-radius: 20px;
+}
+
+.filtered-activities-header {
+  font-size: 30px;
+  font-weight: 400;
+  color: #3e4153;
+  border-bottom: 2px solid #5c5c5c;
+  padding: 15px 0px 7px 10px;
+}
+
+.custom {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+.filter-options > label {
+  font-size: 18px;
+  font-weight: 300;
+  color: #000000;
+}

@@ -67,7 +67,7 @@
 .info-container-activity {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
 }
 .recent-activity {
   width: 100%;
@@ -76,5 +76,9 @@
   box-shadow: 3px 3px 4px 0px #00000040;
   font-size: 16px;
   font-weight: 300;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 5px;
 }
 /* Recent orders */

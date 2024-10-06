@@ -167,13 +167,15 @@ const Dashboard = () => {
             <div className="info-container-activity">
               {recentActivities.map((activity, index) => (
                 <div className="recent-activity" key={index}>
-                  {`${activity.user.name} has ${activity.action} item `}
-                  <strong>{activity.item.name}</strong>
-                  {` in `}
-                  <strong>
-                    {activity.category.name}{" "}
-                    {` (${activity.category.name} Category)`}
-                  </strong>
+                  <div>
+                    {`${activity.user.name} has ${activity.action} item `}
+                    <strong>{activity.item.name}</strong>
+                    {` in `}
+                    <strong>
+                      {activity.category.name}{" "}
+                      {` (${activity.category.name} Category)`}
+                    </strong>
+                  </div>
                 </div>
               ))}
             </div>
