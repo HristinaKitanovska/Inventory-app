@@ -4,6 +4,8 @@
   border-radius: 10px;
   margin-bottom: 20px;
   font-weight: 400;
+  align-items: center;
+  cursor: pointer;
 }
 .sidebar-link > a {
   text-decoration: none;
@@ -20,5 +22,10 @@
 .sidebar-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  height: 80vh;
+}
+
+.sidebar-content > div:first-child {
+  flex-grow: 1; /* push the last div to the bottom */
 }
