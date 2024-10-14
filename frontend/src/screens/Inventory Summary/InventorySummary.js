@@ -69,6 +69,18 @@ const InventorySummary = () => {
       });
   }, [authToken]);
 
+  const generateDateLabels = (start, end) => {
+    const dateArray = [];
+    let currentDate = new Date(start);
+
+    while (currentDate <= new Date(end)) {
+      dateArray.push(new Intl.DateTimeFormat("en-GB").format(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
+    }
+
+    return dateArray;
+  };
+
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,14 +106,17 @@ const InventorySummary = () => {
 
       const data = await response.json();
       const fetchedTotalCost = data.totalPrice || data.totalCost;
-      console.log(fetchedTotalCost);
+
+      // Generate the date labels based on the selected period
+      const dateLabels = generateDateLabels(startDate, endDate);
+
       // Update the chart data based on the API response
       setChartData({
-        labels: ["Total Cost"], // X-axis labels
+        labels: dateLabels, // X-axis labels
         datasets: [
           {
             label: selectedCategory ? "Selected Category" : "All Categories",
-            data: [fetchedTotalCost], // Y-axis data
+            data: new Array(dateLabels.length).fill(fetchedTotalCost), // Y-axis data
             borderColor: "#4caf50",
             backgroundColor: "rgba(76, 175, 80, 0.5)",
             fill: false,
@@ -123,7 +138,7 @@ const InventorySummary = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-  console.log(chartData);
+
   return (
     <AppContainer pageTitle="Reports > Inventory Summary">
       <div>
