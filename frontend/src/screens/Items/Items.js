@@ -12,6 +12,9 @@ import DeleteItemModal from "../../modals/DeleteItemModal/DeleteItemModal";
 import editCategory from "../../assets/icons/edit-category.svg";
 import EditCategoryModal from "../../modals/EditCategoryModal/EditCategoryModal";
 import AuthContext from "../../utils/AuthContext";
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
+import verticalViewButton from "../../assets/icons/vertical-view-button.svg";
+import horizontalViewButton from "../../assets/icons/horizontal-view-button.svg";
 
 const Items = () => {
   const { authToken } = useContext(AuthContext);
@@ -26,6 +29,7 @@ const Items = () => {
   const [itemToDelete, setItemToDelete] = useState(null); // state for the item that we want to delete
   const [showEditCategoryModal, setShowCategoryModal] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState(null);
+  const [viewMode, setViewMode] = useState("vertical");
 
   // pravime eden povik do categories, bidejki se vrzani so items so populate, odma moze i setitems da dobieme
 
@@ -144,6 +148,10 @@ const Items = () => {
     setShowCategoryModal(false);
   };
 
+  const toggleView = (mode) => {
+    setViewMode(mode);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -162,18 +170,42 @@ const Items = () => {
         />
         <GreenButton icon={add} text="add item" onClick={openModal} />
       </div>
+      {/* buttons to toggle */}
+      <div className="view-toggle">
+        <img
+          src={verticalViewButton}
+          className={viewMode === "vertical" ? "active" : ""}
+          onClick={() => toggleView("vertical")}
+          alt=""
+        />
+        <img
+          src={horizontalViewButton}
+          className={viewMode === "horizontal" ? "active" : ""}
+          onClick={() => toggleView("horizontal")}
+          alt=""
+        />
+      </div>
       <div className="vertical-cards">
         {filteredItems?.length > 0 ? (
           filteredItems
             .filter((item) => item)
-            .map((item) => (
-              <VerticalCard
-                key={item._id}
-                data={item}
-                type="item"
-                onDeleteClick={() => openDeleteItemModal(item._id)}
-              />
-            ))
+            .map((item) =>
+              viewMode === "vertical" ? (
+                <VerticalCard
+                  key={item._id}
+                  data={item}
+                  type="item"
+                  onDeleteClick={() => openDeleteItemModal(item._id)}
+                />
+              ) : (
+                <HorizontalCard
+                  key={item._id}
+                  data={item}
+                  type="item"
+                  onDeleteClick={() => openDeleteItemModal(item._id)}
+                />
+              )
+            )
         ) : (
           <p>No items available</p>
         )}

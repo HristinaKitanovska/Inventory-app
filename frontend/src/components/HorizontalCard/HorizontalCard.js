@@ -103,13 +103,11 @@ const HorizontalCard = memo(({ data, type, onDeleteClick }) => {
             type === "item" ? "item-footer" : ""
           }`}
         >
-          {type === "category" && (
-            <span className="last-update">
-              Updated At:
-              <br />
-              <b>{formattedDate}</b>
-            </span>
-          )}
+          <span className="last-update">
+            Updated At:
+            <br />
+            <b>{formattedDate}</b>
+          </span>
           <span className="horizontal-trash-bin" onClick={onDeleteClick}>
             <img src={trashBinIcon} alt="" />
           </span>
