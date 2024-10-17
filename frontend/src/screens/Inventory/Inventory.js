@@ -9,6 +9,9 @@ import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Modal from "../../modals/Modal/Modal";
 import DeleteCategoryModal from "../../modals/DeleteCategoryModal/DeleteCategoryModal";
 import AuthContext from "../../utils/AuthContext";
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
+import verticalViewButton from "../../assets/icons/vertical-view-button.svg";
+import horizontalViewButton from "../../assets/icons/horizontal-view-button.svg";
 
 const Inventory = () => {
   const { authToken } = useContext(AuthContext);
@@ -20,6 +23,7 @@ const Inventory = () => {
   const [orders, setOrders] = useState([]);
   const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [viewMode, setViewMode] = useState("vertical");
 
   useEffect(() => {
     if (!authToken) {
@@ -174,6 +178,10 @@ const Inventory = () => {
     setShowDeleteCategoryModal(false);
   };
 
+  const toggleView = (mode) => {
+    setViewMode(mode);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -207,16 +215,40 @@ const Inventory = () => {
             Total costs: <b>€{calculateTotalCost()}</b>
           </span>
         </div>
+        {/* buttons to toggle */}
+        <div className="view-toggle">
+          <img
+            src={verticalViewButton}
+            className={viewMode === "vertical" ? "active" : ""}
+            onClick={() => toggleView("vertical")}
+            alt=""
+          />
+          <img
+            src={horizontalViewButton}
+            className={viewMode === "horizontal" ? "active" : ""}
+            onClick={() => toggleView("horizontal")}
+            alt=""
+          />
+        </div>
         <div className="vertical-cards">
           {filteredCategories?.length > 0 ? (
-            filteredCategories.map((category) => (
-              <VerticalCard
-                key={category._id}
-                data={category}
-                type="category"
-                onDeleteClick={() => openDeleteCategoryModal(category._id)}
-              />
-            ))
+            filteredCategories.map((category) =>
+              viewMode === "vertical" ? (
+                <VerticalCard
+                  key={category._id}
+                  data={category}
+                  type="category"
+                  onDeleteClick={() => openDeleteCategoryModal(category._id)}
+                />
+              ) : (
+                <HorizontalCard
+                  key={category._id}
+                  data={category}
+                  type="category"
+                  onDeleteClick={() => openDeleteCategoryModal(category._id)}
+                />
+              )
+            )
           ) : (
             <p>No categories available</p>
           )}

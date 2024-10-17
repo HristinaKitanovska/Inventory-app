@@ -26,3 +26,11 @@
   gap: 30px;
   width: 80%;
 }
+
+.view-toggle {
+  margin-left: auto;
+}
+
+.view-toggle > img {
+  cursor: pointer;
+}
