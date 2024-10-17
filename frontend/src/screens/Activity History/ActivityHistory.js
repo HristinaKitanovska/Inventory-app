@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import AppContainer from "../../components/AppContainer/AppContainer";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const ActivityHistory = () => {
   const [activities, setActivities] = useState([]);
@@ -50,7 +51,7 @@ const ActivityHistory = () => {
   }, [authToken, navigate]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

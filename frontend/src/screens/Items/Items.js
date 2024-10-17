@@ -15,6 +15,7 @@ import AuthContext from "../../utils/AuthContext";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import verticalViewButton from "../../assets/icons/vertical-view-button.svg";
 import horizontalViewButton from "../../assets/icons/horizontal-view-button.svg";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const Items = () => {
   const { authToken } = useContext(AuthContext);
@@ -153,7 +154,7 @@ const Items = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

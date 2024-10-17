@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/AuthContext";
 import Carousel from "../../components/Carousel/Carousel";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(0);
@@ -113,7 +114,7 @@ const Dashboard = () => {
   }, [authToken, navigate]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

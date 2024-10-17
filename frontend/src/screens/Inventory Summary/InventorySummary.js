@@ -14,6 +14,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 // Register necessary components for Chart.js
 ChartJS.register(
@@ -132,7 +133,7 @@ const InventorySummary = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

@@ -9,6 +9,7 @@ import addFolder from "../../assets/icons/add-folder.svg";
 import AddOrderModal from "../../modals/AddOrderModal/AddOrderModal";
 import AddInvoiceModal from "../../modals/AddInvoiceModal/AddInvoiceModal";
 import AuthContext from "../../utils/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const Orders = () => {
   const { authToken } = useContext(AuthContext);
@@ -81,7 +82,7 @@ const Orders = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
