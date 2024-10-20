@@ -88,11 +88,13 @@ module.exports = {
         (sum, order) => sum + order.totalPrice,
         0
       );
+      const totalOrders = orders.length; // Count of orders
 
       res.status(200).json({
         error: false,
         message: `Total price for item with id #${itemId} calculated successfully`,
         totalPrice,
+        totalOrders,
       });
     } catch (error) {
       res.status(500).json({
