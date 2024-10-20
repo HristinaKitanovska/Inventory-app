@@ -8,6 +8,7 @@ const VerticalCard = memo(({ data, type, onDeleteClick }) => {
   const { authToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     if (!authToken) {
@@ -49,6 +50,7 @@ const VerticalCard = memo(({ data, type, onDeleteClick }) => {
 
         const result = await response.json();
         setTotalPrice(result.totalPrice);
+        setOrderCount(result.totalOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -93,7 +95,7 @@ const VerticalCard = memo(({ data, type, onDeleteClick }) => {
         {/* za items prikazuvane kolku orders ima */}
         {type === "item" && (
           <span className="info">
-            <b>{data.orders?.length} Purchase records</b> | € {totalPrice}
+            <b>{orderCount} Purchase records</b> | € {totalPrice}
           </span>
         )}
 
