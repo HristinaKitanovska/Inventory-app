@@ -10,6 +10,7 @@ import AddOrderModal from "../../modals/AddOrderModal/AddOrderModal";
 import AddInvoiceModal from "../../modals/AddInvoiceModal/AddInvoiceModal";
 import AuthContext from "../../utils/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import EditItemModal from "../../modals/EditItemModal/EditItemModal";
 
 const Orders = () => {
   const { authToken } = useContext(AuthContext);
@@ -21,6 +22,7 @@ const Orders = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
+  const [showEditItemModal, setShowEditItemModal] = useState(false);
 
   useEffect(() => {
     if (!authToken) {
@@ -79,6 +81,20 @@ const Orders = () => {
   };
   const closeAddInvoiceModal = () => {
     setShowAddInvoiceModal(false);
+  };
+
+  // Edit item modal
+  const openEditItemModal = () => {
+    setShowEditItemModal(true);
+  };
+  const closeEditItemModal = () => {
+    setShowEditItemModal(false);
+  };
+
+  // We update the item details(name, image) so we don't need to refresh the page to see the new values
+  // This is used in update item function in EditItemModal
+  const updateItemDetails = (updatedItem) => {
+    setItem(updatedItem);
   };
 
   if (loading) {
@@ -164,7 +180,12 @@ const Orders = () => {
               src={`http://localhost:3000/${item?.image}`}
               alt=""
             />
-            <img className="edit-image" src={edit} alt="" />
+            <img
+              className="edit-image"
+              src={edit}
+              alt=""
+              onClick={openEditItemModal}
+            />
           </div>
           <span className="item-name">
             Name: <b>{item.name}</b>
@@ -174,7 +195,6 @@ const Orders = () => {
               icon={addFolder}
               style={{ padding: "10px 5px 10px 20px" }}
             />
-            <GreenButton text="save" style={{ padding: "10px 40px" }} />
           </div>
         </div>
       </div>
@@ -188,6 +208,12 @@ const Orders = () => {
         show={showAddInvoiceModal}
         close={closeAddInvoiceModal}
         itemId={id} // we are sending the id of item to the modal
+      />
+      <EditItemModal
+        show={showEditItemModal}
+        close={closeEditItemModal}
+        item={item}
+        updateItem={updateItemDetails}
       />
     </AppContainer>
   );

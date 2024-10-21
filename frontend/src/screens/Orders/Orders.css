@@ -34,8 +34,9 @@
 
 .edit-image {
   position: absolute;
+  cursor: pointer;
   top: 50%;
-  left: 92%;
+  right: 7%;
 }
 
 .item-name {
