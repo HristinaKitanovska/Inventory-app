@@ -19,6 +19,6 @@ router
   .get("/:id", authMiddleware, controller.getById)
   .get("/category/:category", authMiddleware, controller.getByCategory)
   .post("/", upload.single("image"), authMiddleware, controller.create)
-  .patch("/:id", /*upload.single("image"),*/ authMiddleware, controller.update)
+  .put("/:id", upload.single("image"), authMiddleware, controller.updateItem)
   .delete("/:id", authMiddleware, controller.delete);
 module.exports = router;

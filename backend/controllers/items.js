@@ -94,7 +94,48 @@ module.exports = {
       });
     }
   },
-  update: async (req, res) => {},
+  updateItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const image = req.file ? req.file.path : null;
+
+      // Find the item by ID
+      const item = await Item.findById(id);
+
+      if (!item) {
+        return res.status(404).send({
+          error: true,
+          message: `Item with id #${id} not found`,
+        });
+      }
+
+      // Update the item name if provided
+      if (name) {
+        item.name = name;
+      }
+
+      // Update the image if a new one is provided
+      if (image) {
+        item.image = image;
+      }
+
+      // Save the updated item
+      await item.save();
+
+      res.send({
+        error: false,
+        message: `Item with id #${id} has been updated`,
+        item,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: true,
+        message: "Error updating item",
+        errorDetails: error.message,
+      });
+    }
+  },
   delete: async (req, res) => {
     try {
       const item = await Item.findById(req.params.id);
