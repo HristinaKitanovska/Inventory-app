@@ -23,7 +23,7 @@ module.exports = {
 
       // Generate a JWT token
       const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "3h",
       });
 
       const { password: _, ...userWithoutPassword } = user.toObject(); // Exclude the password field
