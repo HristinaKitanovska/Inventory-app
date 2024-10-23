@@ -153,6 +153,12 @@ const Items = () => {
     setViewMode(mode);
   };
 
+  // We update the category details(name, image) so we don't need to refresh the page to see the new values
+  // This is used in update category function in EditCategoryModal
+  const updateCategoryDetails = (updateCategory) => {
+    setCategory(updateCategory);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -235,6 +241,7 @@ const Items = () => {
         show={showEditCategoryModal}
         close={closeEditCategoryModal}
         categoryData={categoryToEdit}
+        updateCategory={updateCategoryDetails}
       />
     </AppContainer>
   );

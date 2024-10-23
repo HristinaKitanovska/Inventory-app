@@ -6,7 +6,7 @@ import GreyButton from "../../components/GreyButton/GreyButton";
 import addPhotoIcon from "../../assets/icons/add-photo-icon.svg";
 import AuthContext from "../../utils/AuthContext";
 
-const EditCategoryModal = ({ show, close, categoryData }) => {
+const EditCategoryModal = ({ show, close, categoryData, updateCategory }) => {
   const { authToken } = useContext(AuthContext);
   const [name, setName] = useState(categoryData?.name || "");
   const [imageFile, setImageFile] = useState(null);
@@ -59,6 +59,7 @@ const EditCategoryModal = ({ show, close, categoryData }) => {
 
       const data = await response.json();
       console.log("Category updated successfully:", data);
+      updateCategory(data.category);
 
       close();
     } catch (error) {
