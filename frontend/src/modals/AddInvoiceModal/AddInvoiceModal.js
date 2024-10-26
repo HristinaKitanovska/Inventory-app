@@ -121,7 +121,7 @@ const AddInvoiceModal = ({ show, close, itemId }) => {
               </option>
               {orders.map((order) => (
                 <option key={order._id} value={order._id}>
-                  {order.quantity}
+                  {order.totalPrice}
                 </option>
               ))}
             </select>
