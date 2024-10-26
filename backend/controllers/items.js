@@ -136,6 +136,37 @@ module.exports = {
       });
     }
   },
+  moveItem: async (req, res) => {
+    const { itemId, oldCategoryId, newCategoryId } = req.body;
+
+    try {
+      // Remove the item from the old category
+      await Category.updateOne(
+        { _id: oldCategoryId },
+        { $pull: { items: itemId } } // Remove the item from items array
+      );
+
+      // Add the item to the new category
+      await Category.updateOne(
+        { _id: newCategoryId },
+        { $push: { items: itemId } } // Add the item to the new category's items array
+      );
+
+      // Update the item's category reference
+      await Item.updateOne(
+        { _id: itemId },
+        { $set: { category: newCategoryId } }
+      );
+
+      return res
+        .status(200)
+        .json({ message: "Item moved to new category successfully" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Error moving item to new category", error });
+    }
+  },
   delete: async (req, res) => {
     try {
       const item = await Item.findById(req.params.id);

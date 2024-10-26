@@ -20,5 +20,6 @@ router
   .get("/category/:category", authMiddleware, controller.getByCategory)
   .post("/", upload.single("image"), authMiddleware, controller.create)
   .put("/:id", upload.single("image"), authMiddleware, controller.updateItem)
+  .patch("/move/:itemId", authMiddleware, controller.moveItem)
   .delete("/:id", authMiddleware, controller.delete);
 module.exports = router;
