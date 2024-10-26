@@ -137,7 +137,8 @@ module.exports = {
     }
   },
   moveItem: async (req, res) => {
-    const { itemId, oldCategoryId, newCategoryId } = req.body;
+    const { itemId } = req.params;
+    const { oldCategoryId, newCategoryId } = req.body;
 
     try {
       // Remove the item from the old category
