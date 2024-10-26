@@ -41,7 +41,6 @@ const MoveItemModal = ({ item, show, close }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        itemId: item._id,
         oldCategoryId: item.category?._id,
         newCategoryId: selectedCategory,
       }),
