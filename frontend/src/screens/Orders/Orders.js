@@ -11,6 +11,7 @@ import AddInvoiceModal from "../../modals/AddInvoiceModal/AddInvoiceModal";
 import AuthContext from "../../utils/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import EditItemModal from "../../modals/EditItemModal/EditItemModal";
+import MoveItemModal from "../../modals/MoveItemModal/MoveItemModal";
 
 const Orders = () => {
   const { authToken } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const Orders = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
   const [showEditItemModal, setShowEditItemModal] = useState(false);
+  const [showMoveItemModal, setShowMoveItemModal] = useState(false);
 
   useEffect(() => {
     if (!authToken) {
@@ -89,6 +91,14 @@ const Orders = () => {
   };
   const closeEditItemModal = () => {
     setShowEditItemModal(false);
+  };
+
+  // Move item modal
+  const openMoveItemModal = () => {
+    setShowMoveItemModal(true);
+  };
+  const closeMoveItemModal = () => {
+    setShowMoveItemModal(false);
   };
 
   // We update the item details(name, image) so we don't need to refresh the page to see the new values
@@ -194,6 +204,7 @@ const Orders = () => {
             <GreenButton
               icon={addFolder}
               style={{ padding: "10px 5px 10px 20px" }}
+              onClick={openMoveItemModal}
             />
           </div>
         </div>
@@ -214,6 +225,11 @@ const Orders = () => {
         close={closeEditItemModal}
         item={item}
         updateItem={updateItemDetails}
+      />
+      <MoveItemModal
+        show={showMoveItemModal}
+        close={closeMoveItemModal}
+        item={item}
       />
     </AppContainer>
   );
