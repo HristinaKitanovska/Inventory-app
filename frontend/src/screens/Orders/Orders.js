@@ -25,6 +25,7 @@ const Orders = () => {
   const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
   const [showEditItemModal, setShowEditItemModal] = useState(false);
   const [showMoveItemModal, setShowMoveItemModal] = useState(false);
+  const [invoiceCount, setInvoiceCount] = useState(0);
 
   useEffect(() => {
     if (!authToken) {
@@ -59,6 +60,36 @@ const Orders = () => {
         setLoading(false);
       });
   }, [id, authToken]);
+
+  useEffect(() => {
+    const fetchInvoiceCount = async () => {
+      if (!authToken) {
+        console.error("No auth token available. Please log in again.");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/invoices/count", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch invoice count");
+        }
+
+        const data = await response.json();
+        setInvoiceCount(data.count);
+      } catch (error) {
+        console.error("Error fetching invoice count:", error);
+      }
+    };
+
+    fetchInvoiceCount();
+  }, [authToken]);
 
   const calculateTotalCost = () => {
     return orders.reduce((total, order) => total + order.totalPrice, 0);
@@ -107,6 +138,11 @@ const Orders = () => {
     setItem(updatedItem);
   };
 
+  // with this function we don't need to refresh the page to see the total number of invoices
+  const incrementInvoiceCount = () => {
+    setInvoiceCount((prevCount) => prevCount + 1);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -127,7 +163,7 @@ const Orders = () => {
             Total Cost: <b>€{calculateTotalCost()}</b>
           </span>
           <span>
-            Total Invoices: <b>12</b>
+            Total Invoices: <b>{invoiceCount}</b>
           </span>
         </div>
         <GreenButton icon={add} text="add order" onClick={openModal} />
@@ -219,6 +255,8 @@ const Orders = () => {
         show={showAddInvoiceModal}
         close={closeAddInvoiceModal}
         itemId={id} // we are sending the id of item to the modal
+        item={item}
+        incrementInvoiceCount={incrementInvoiceCount}
       />
       <EditItemModal
         show={showEditItemModal}
