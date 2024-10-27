@@ -141,7 +141,14 @@ module.exports = {
     const { oldCategoryId, newCategoryId } = req.body;
 
     try {
-      // Remove the item from the old category
+      // Find the item by ID
+      const item = await Item.findById(itemId);
+      if (!item) {
+        return res
+          .status(404)
+          .json({ message: `Item with id #${itemId} not found` });
+      }
+
       await Category.updateOne(
         { _id: oldCategoryId },
         { $pull: { items: itemId } } // Remove the item from items array
@@ -159,9 +166,18 @@ module.exports = {
         { $set: { category: newCategoryId } }
       );
 
-      return res
-        .status(200)
-        .json({ message: "Item moved to new category successfully" });
+      const activity = await Activity.create({
+        action: "moved",
+        item: item._id,
+        itemName: item.name,
+        category: newCategoryId,
+        user: req.user.userId,
+      });
+
+      return res.status(200).json({
+        message: "Item moved to new category successfully",
+        activity: activity,
+      });
     } catch (error) {
       return res
         .status(500)
